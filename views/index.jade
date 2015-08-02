@@ -1,0 +1,9 @@
+extends layout
+
+block content
+	//- h1= title
+	//- p Welcome to #{title}
+	div#container
+		canvas#game(width='480' height='640')
+	script(src='javascripts/engine.js')
+	script(src='javascripts/game.js')
