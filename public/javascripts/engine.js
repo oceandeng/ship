@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-08-02 17:27:05
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-08-02 21:30:11
+* @Last Modified time: 2015-08-26 13:32:14
 */
 
 'use strict';
@@ -69,9 +69,8 @@ var Game = new function(){
 		boards[num] = board;
 	};
 
-	 // this.setBoard = function(num,board) { boards[num] = board; };
+	// this.setBoard = function(num,board) { boards[num] = board; };
 }
-
 
 var SpriteSheet = new function(){
 	this.map = {};

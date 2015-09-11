@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-08-02 16:17:04
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-08-02 21:32:58
+* @Last Modified time: 2015-08-26 11:46:00
 */
 
 'use strict';
@@ -32,11 +32,9 @@ var playGame = function(){
 	// Game.setBoard(3, new TitleScreen('Alien Invasion', 'Game Started...'));
 }
 
-
 window.addEventListener('load', function(){
 	Game.initialize('game', sprites, startGame);
 }, false);
-
 
 // Star Field
 var Starfield = function(speed, opacity, numStars, clear){
