@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-10-01 16:46:14
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-10-01 23:02:33
+* @Last Modified time: 2015-10-01 23:19:57
 */
 
 'use strict';
@@ -19,14 +19,15 @@ var DragDrop = function(){
 		// 获取事件和目标
 		event = EventUtil.getEvent(event);
 		var target = EventUtil.getTarget(event);
-		
+
+
 		// 确定事件类型
 		switch(event.type){
 			case "mousedown":
 				if(target.className.indexOf("draggable") > -1){
 					dragging = target;
 					diffX = event.clientX - target.offsetLeft;
-					diffY = event.clientY = target.offsetTop;
+					diffY = event.clientY - target.offsetTop;
 					dragdrop.fire({type: "dragstart", target: dragging, x: event.clientX, y: event.clientY});
 				}
 				break;
@@ -40,6 +41,8 @@ var DragDrop = function(){
 					// 触发自定义事件
 					dragdrop.fire({type: "drag", target: dragging, x: event.clientX, y: event.clientY});
 				}
+				
+				event.preventDefault();
 				break;
 			case "mouseup":
 				dragdrop.fire({type: "dragend", target: dragging, x: event.clientX, y: event.clientY});
@@ -67,6 +70,7 @@ var DragDrop = function(){
 // 调用demo
 
 var DragDrop = new DragDrop();
+DragDrop.enable();
 
 DragDrop.addHandler("dragstart", function(event){
 	var status = document.getElementById('myDiv');

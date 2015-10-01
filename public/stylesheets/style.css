@@ -15,5 +15,6 @@ a {
 	border-radius: 5px;
 	text-align: center;
 	color: #fff;
-	cursor: pointer;	
+	cursor: pointer;
+	position: absolute;
 }
