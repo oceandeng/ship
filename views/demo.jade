@@ -1,4 +1,4 @@
-extends layout
+extends layout/layout
 
 block content
 	h1= title
@@ -6,3 +6,5 @@ block content
 	form(action="/demo", method="post")
 		input(type="text")
 		input(type="submit", value="aaa")
+	script(src="libs/underscore/underscore.js")
+	script(src="javascripts/demo.js")

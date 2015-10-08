@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-08-02 16:17:04
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-08-26 11:46:00
+* @Last Modified time: 2015-09-16 11:34:17
 */
 
 'use strict';
@@ -22,8 +22,8 @@ var startGame = function(){
 	Game.setBoard(0, new Starfield(20, 0.4, 100, true));
 	Game.setBoard(1, new Starfield(50, 0.6, 100));
 	Game.setBoard(2, new Starfield(100, 1.0, 50));
-	Game.setBoard(3, new TitleScreen('Alien Invasion', 
-									'Press space to start playing', 
+	Game.setBoard(3, new TitleScreen('Alien Invasion',
+									'Press space to start playing',
 									playGame));
 }
 

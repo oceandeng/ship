@@ -1,0 +1,23 @@
+{
+  "name": "ship",
+  "version": "0.0.0",
+  "homepage": "https://github.com/oceandeng/ship",
+  "authors": [
+    "oceandeng <ocean_deng@163.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "underscore": "~1.8.3"
+  }
+}
