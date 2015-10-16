@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-10-01 16:56:25
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-10-01 17:22:23
+* @Last Modified time: 2015-10-08 17:55:40
 */
 
 'use strict';
@@ -49,7 +49,7 @@ EventTarget.prototype = {
 /*
 
 // 调用demo
-	
+
 function handlerMessage(event){
 	alert("Message received:" + event.message);
 }

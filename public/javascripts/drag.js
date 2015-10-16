@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-10-01 16:46:14
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-10-01 23:19:57
+* @Last Modified time: 2015-10-08 18:09:11
 */
 
 'use strict';
@@ -19,7 +19,6 @@ var DragDrop = function(){
 		// 获取事件和目标
 		event = EventUtil.getEvent(event);
 		var target = EventUtil.getTarget(event);
-
 
 		// 确定事件类型
 		switch(event.type){
@@ -41,7 +40,7 @@ var DragDrop = function(){
 					// 触发自定义事件
 					dragdrop.fire({type: "drag", target: dragging, x: event.clientX, y: event.clientY});
 				}
-				
+
 				event.preventDefault();
 				break;
 			case "mouseup":
@@ -66,23 +65,22 @@ var DragDrop = function(){
 	return dragdrop;
 }
 
-
 // 调用demo
 
 var DragDrop = new DragDrop();
 DragDrop.enable();
 
-DragDrop.addHandler("dragstart", function(event){
-	var status = document.getElementById('myDiv');
-	status.innerHTML = "Start dragging" + event.target.id;
-});
+// DragDrop.addHandler("dragstart", function(event){
+// 	var status = document.getElementById('myDiv');
+// 	status.innerHTML = "Start dragging" + event.target.id;
+// });
 
-DragDrop.addHandler("drag", function(event){
-	var status = document.getElementById('myDiv');
-	status.innerHTML += "<br/> Dragged " + event.target.id + " to (" + event.x + "," + event.y + ")";
-});
+// DragDrop.addHandler("drag", function(event){
+// 	var status = document.getElementById('myDiv');
+// 	status.innerHTML += "<br/> Dragged " + event.target.id + " to (" + event.x + "," + event.y + ")";
+// });
 
-DragDrop.addHandler("dragend", function(event){
-	var status = document.getElementById('myDiv');
-	status.innerHTML = "<br/> Dragged " + event.target.id + " to (" + event.x + "," + event.y + ")";
-});
+// DragDrop.addHandler("dragend", function(event){
+// 	var status = document.getElementById('myDiv');
+// 	status.innerHTML = "<br/> Dragged " + event.target.id + " to (" + event.x + "," + event.y + ")";
+// });

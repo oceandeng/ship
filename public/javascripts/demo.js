@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-09-15 11:06:02
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-09-15 18:37:54
+* @Last Modified time: 2015-10-16 15:06:01
 */
 
 'use strict';
@@ -15,11 +15,13 @@ var json = [{
 	"year": "1918",
 	"newsroom": "The New York Times",
 	"reason": "For its public service in publishing in full so many official reports,documents and speeches by European statesmen relating to the progress and conduct of the war."
-	},{
+	},
+	{
 	"year": "1919",
 	"newsroom": "The London Times",
 	"reason": "For its public service in publishing in full so many official reports, documents and speeches by European statesmen relating to the progress and conduct of the war."
-	},{
+	},
+	{
 	"year": "1920",
 	"newsroom": "The Beijing Times",
 	"reason": "For its public service in publishing in full so many official reports, documents and speeches by European statesmen relating to the progress and conduct of the war."
