@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-09-15 11:06:02
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-10-16 15:06:01
+* @Last Modified time: 2015-10-23 12:01:39
 */
 
 'use strict';
@@ -272,3 +272,6 @@ var chaosArr = [1, 2, 1, 3, 1, 4, 2, 6, 1];
 	console.log(func());
 
 	// console.log(result);
+
+var random = _.random(0, 100);
+console.log(random);
