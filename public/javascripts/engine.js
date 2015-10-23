@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-08-02 17:27:05
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-09-15 16:19:55
+* @Last Modified time: 2015-10-19 18:11:32
 */
 
 'use strict';
@@ -11,9 +11,18 @@ var Game = new function(){
 	// Game Initaliztion
 	this.initialize = function(canvasElementId, spriteData, callback){
 
+		var sW = document.documentElement.clientWidth,
+			sH = document.documentElement.clientHeight;
+
 		this.canvas = document.getElementById(canvasElementId);
-		this.width = this.canvas.width;
-		this.height = this.canvas.height;
+
+		this.canvas.width = sW;
+		this.canvas.height = sH;
+
+		this.width = sW;
+		this.height = sH;
+		// this.width = this.canvas.width;
+		// this.height = this.canvas.height;
 
 		// Set up the rendering context
 		this.ctx = this.canvas.getContext && this.canvas.getContext('2d');
@@ -94,7 +103,7 @@ var SpriteSheet = new function(){
 	};
 };
 
-var TitleScreen = function TitleScreen(title,subtitle,callback) {
+var TitleScreen = function(title, subtitle, callback) {
   var up = false;
 
   this.step = function(dt) {
@@ -107,9 +116,10 @@ var TitleScreen = function TitleScreen(title,subtitle,callback) {
     ctx.textAlign = "center";
 
     ctx.font = "bold 40px bangers";
-    ctx.fillText(title,Game.width/2,Game.height/2);
+    ctx.fillText(title, Game.width/2, Game.height/2);
 
     ctx.font = "bold 20px bangers";
-    ctx.fillText(subtitle,Game.width/2,Game.height/2 + 40);
+    ctx.fillText(subtitle, Game.width/2, Game.height/2 + 40);
+
   };
 };

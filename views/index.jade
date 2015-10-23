@@ -1,9 +1,12 @@
 extends layout/layout
 
+block head
+	link(rel="stylesheet", href="stylesheets/game.css")
+
 block content
 	//- h1= title
 	//- p Welcome to #{title}
-	div#container
-		canvas#game(width='480' height='640')
+	canvas#game
+block footer
 	script(src='javascripts/engine.js')
 	script(src='javascripts/game.js')
