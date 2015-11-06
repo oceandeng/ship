@@ -1,7 +1,3 @@
-body {
-  font: 14px "Microsoft Yahei" "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
 a {
   color: #00B7FF;
 }
@@ -18,4 +14,26 @@ a {
 	position: absolute;
 	right: 10px;
 	top: 10px;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+	font: 14px "Microsoft Yahei" "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+input, select {
+    width: 100%;
+    padding: 5px;
+    margin: 5px 0;
+    border: 1px solid #aaa;
+    box-sizing: border-box;
+    border-radius: 5px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -webkit-border-radius: 5px;
+}
+
+.content {
+    padding: 15px;
+    background: #fff;
 }

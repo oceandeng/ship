@@ -12,6 +12,7 @@ var routes = require('./routes/index');
 var users = require('./routes/user');
 var demo = require('./routes/demo');
 var d3 = require('./routes/d3');
+var mobiscroll = require('./routes/mobiscroll');
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/demo', demo);
 app.use('/d3', d3);
+app.use('/mobiscroll', mobiscroll);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
