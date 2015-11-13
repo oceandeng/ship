@@ -1,11 +1,14 @@
-/* 
-* @Author: ocean
-* @Date:   2015-09-09 14:46:16
-* @Last Modified by:   ocean
-* @Last Modified time: 2015-10-19 16:27:54
-*/
+var express = require('express');
+var router = express.Router();
 
-'use strict';
+router.get('/', function(req, res, next){
+	res.render('d3', {
+		title: 'd3DEMO'
+	});
+});
+
+module.exports = router;
+
 
 var express = require('express');
 var router = express.Router();
@@ -34,6 +37,7 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
 
 	var user = req.body.user;
+
   // res.send('respond post with a resource');
 	request.post(
 		{
@@ -63,3 +67,45 @@ console.log('---------------------------------');
 module.exports = router;
 
 // 实例程序创建了一个路由模块，并加载了一个中间件，定义了一些路由，并且将它们挂载至应用的路径上。
+
+var express = require('express');
+var router = express.Router();
+
+router.get('/', function(req, res, next){
+	res.render('mobiscroll', {title: 'mobiscroll'});
+})
+
+module.exports = router;
+
+
+var express = require('express');
+var router = express.Router();
+
+var User = require('../models/user')
+
+/* GET users listing. */
+router.get('/', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
+router.post('/', function(req, res, next){
+	var data = req.body;
+
+	// 存储提交信息
+	var _user = new User({
+		username: data.username
+	});
+
+	_user.save(function(err, user){
+		if(err){
+			console.log(err);
+		}
+
+		// 重定向跳转页面
+		res.redirect('/demo');
+	});
+
+	console.log(data);
+});
+
+module.exports = router;

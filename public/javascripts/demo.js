@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-09-15 11:06:02
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-10-23 12:01:39
+* @Last Modified time: 2015-11-12 17:35:27
 */
 
 'use strict';
@@ -275,3 +275,70 @@ var chaosArr = [1, 2, 1, 3, 1, 4, 2, 6, 1];
 
 var random = _.random(0, 100);
 console.log(random);
+
+/******************************************************************
+// >> 10段代码打通js学习的任督二脉
+******************************************************************/
+// -------
+// function foo(somthing){
+// 	console.log(this.a, somthing);
+// }
+// function bind(fn, obj){
+// 	return function(){
+// 		return fn.apply(obj, arguments);
+// 	}
+// }
+// var obj = {
+// 	a: 2
+// }
+// var bar = bind(foo, obj);
+// var b = bar(3); // 2, 3
+
+// -------
+// function foo(a, b){
+// 	this.val = a + b;
+// }
+// var bar = foo.bind(null, 'p1');
+// var baz = new bar('p2');
+
+// console.log(baz.val); //p1p2
+
+/******************************************************************
+// >> JQuery代码片段
+******************************************************************/
+// -------
+var cache = {};
+
+$.data(cache, "key", "value");
+$.data(cache, "aa", "bb")
+console.log($.data(cache, "key"));
+console.log($.data(cache, "aa"));
+
+console.log(cache);
+
+// -------
+//下面的正则表达式建议各位收藏哦，项目上有可能会用得着
+$('#password').keyup(function(e) {
+	//密码为八位及以上并且字母数字特殊字符三项都包括
+	var strongRegex = new RegExp("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
+	//密码为七位及以上并且字母、数字、特殊字符三项中有两项，强度是中等
+	var mediumRegex = new RegExp("^(?=.{7,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$", "g");
+	var enoughRegex = new RegExp("(?=.{6,}).*", "g");
+
+	var $passstrength = $('#passstrength');
+
+	if (false == enoughRegex.test($(this).val())) {
+		$passstrength.html('More Characters');
+	} else if (strongRegex.test($(this).val())) {
+		$passstrength.className = 'ok';
+		$passstrength.html('Strong!');
+	} else if (mediumRegex.test($(this).val())) {
+		$passstrength.className = 'alert';
+		$passstrength.html('Medium!');
+	} else {
+		$passstrength.className = 'error';
+		$passstrength.html('Weak!');
+	}
+	return true;
+});
+

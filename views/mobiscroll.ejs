@@ -1,0 +1,23 @@
+<% include includes/header%>
+<title><%= title %></title>
+<% include includes/head %>
+<link rel="stylesheet" href="stylesheets/mobiscroll/mobiscroll.css">
+<link rel="stylesheet" href="stylesheets/mobiscroll/mobiscroll.wheels.css">
+<link rel="stylesheet" href="stylesheets/mobiscroll/mobiscroll.skin.css">
+<link rel="stylesheet" href="stylesheets/style.css">
+</head>
+<body>
+	<h1><%= title %></h1>
+	<div class="content">
+		<div class="demo">
+			<label for="appDate">日期</label>
+			<input value="" class="" readonly="readonly" name="appDate" id="appDate" type="text">
+		</div>
+	</div>
+
+<% include includes/scripts %>
+<!-- <script src="javascripts/mobiscroll/mobiscroll.zepto.js"></script> -->
+<script src="javascripts/mobiscroll/mobiscroll.core.js"></script>
+<script src="javascripts/mobiscroll/mobiscroll.frame.js"></script>
+<script src="javascripts/mobiscroll/mobiscroll.scroller.js"></script>
+<% include includes/foot %>

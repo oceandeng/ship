@@ -1,0 +1,86 @@
+<% include includes/header%>
+<title><%= title %></title>
+<% include includes/head %>
+<style>
+	#passstrength{
+		display: block;
+		line-height: 40px;
+		min-height: 40px;
+		text-align: center;
+		background: #eee;
+	}
+	.btn{height: 30px; line-height: 30px; text-align: center; background: #ccc;margin:10px 0;}
+</style>
+</head>
+<body>
+	<h1><%= title %></h1>
+
+	<form action="/demo", method="post">
+		<input type="text" value="" id="user" name="user">
+		<input type="submit" value="aaa">
+	</form>
+
+	<div id="demoBtn" style="height: 30px; line-height: 30px; text-align: center; background: #ccc;">AJAX提交</div>
+
+	<section class="container">
+		<nav id="menu" class="draggable">菜单</nav>
+	</section>
+	<div id="myDiv">1</div>
+	<div id="output">2</div>
+	<form action="/users", method="post">
+		<input type="text" value="" id="userName" name="username">
+		<input type="password" value="" id="password" name="password">
+		<span id="passstrength"></span>
+		<input type="submit" value="提交">
+	</form>
+	<div id="userBtn" class="btn">AJAX提交</div>
+
+	<div id="demo" class="btn">BTN</div>
+
+<% include includes/scripts %>
+<script src="javascripts/event_target.js"></script>
+<script src="javascripts/eventutil.js"></script>
+<script src="javascripts/drag.js"></script>
+<script src="libs/underscore/underscore.js"></script>
+<script src="javascripts/event_target.js"></script>
+<script src="javascripts/demo.js"></script>
+<script src="javascripts/tools.js"></script>
+<script src="javascripts/loading.js"></script>
+
+<script>
+	$('#demoBtn').on('click', function(){
+		var con = $('#user').val();
+
+		$.ajax({
+			type: 'POST',
+			url: 'http://192.168.13.50:3000/demo',
+			dataType: 'json',
+			data: {user: con},
+			before: function(){
+
+			},
+			success: function(data){
+				console.log(data);
+			},
+			complete: function(){
+
+			}
+		});
+	});
+
+	$('#userBtn').on('click', function(){
+		var uName = $('#userName').val();
+
+		$.ajax({
+			type: 'POST',
+			url: 'http://192.168.13.50:3000/users',
+			dataType: 'json',
+			data: {username: uName},
+			success: function(res){
+				console.log(res);
+			}
+		})
+	});
+
+</script>
+<% include includes/foot %>

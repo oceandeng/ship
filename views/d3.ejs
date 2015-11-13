@@ -1,0 +1,30 @@
+<% include includes/header%>
+<title><%= title %></title>
+<% include includes/head %>
+<style>
+	.axis path,
+	.axis line{
+	    fill: none;
+	    stroke: black;
+	    shape-rendering: crispEdges;
+	}
+	.axis text {
+	    font-family: sans-serif;
+	    font-size: 11px;
+	}
+	.MyRect{
+		fill: steelblue;
+	}
+	.MyText{
+		fill: white;
+		text-anchor: middle;
+	}
+</style>
+</head>
+<body>
+	<h1><%= title %></h1>
+
+<script src="libs/d3/d3.min.js"></script>
+<script src="javascripts/d3_demo.js"></script>
+
+<% include includes/foot %>

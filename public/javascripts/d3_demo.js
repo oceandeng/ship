@@ -1,8 +1,8 @@
-aa/* 
+/* 
 * @Author: ocean
 * @Date:   2015-11-02 13:48:04
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-11-06 13:28:43
+* @Last Modified time: 2015-11-09 15:35:56
 */
 
 'use strict';
@@ -17,7 +17,6 @@ function helloworld(){
 }
 
 helloworld();
-
 
 /**********************************************
 // - 添加SVG画布
@@ -140,20 +139,3 @@ svg.append('g').attr('class', 'axis').attr('transform', 'translate(' + padding.l
 
 //添加y轴
 svg.append('g').attr('class', 'axis').attr('transform', 'translate(' + padding.left + ',' + padding.top + ')').call(yAxis);
-
-
-function foo(somthing){
-	console.log(this.a, somthing);
-}
-function bind(fn, obj){
-	return function(){
-		return fn.apply(obj, arguments);
-	}
-}
-
-var obj = {
-	a: 2
-}
-var bar = bind(foo, obj);
-var b = bar(3); // 2, 3
-
