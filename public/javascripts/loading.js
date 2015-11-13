@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-06-29 10:16:24
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-11-13 16:08:19
+* @Last Modified time: 2015-11-13 17:02:25
 */
 
 'use strict';
@@ -160,7 +160,6 @@ var loading = function(arg){
 	}
 	return new LoadingImg(arg);
 };
-
 
 /********************************************
 // -- 调用DEMO 
