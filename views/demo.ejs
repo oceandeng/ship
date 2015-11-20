@@ -10,7 +10,44 @@
 		background: #eee;
 	}
 	.btn{height: 30px; line-height: 30px; text-align: center; background: #ccc;margin:10px 0;}
+
 </style>
+
+
+
+<style>
+	#outBox{
+        width: 50px;
+        height: 30px;
+        border-radius: 15px;
+        position: relative;
+    }
+    #inBox{
+        width: 26px;
+        height: 26px;
+        border-radius: 13px;
+        position: absolute;
+        background: white;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, .4);
+    }
+    .open-one{
+        background: rgba(0, 184, 0, .8);
+    }
+    .open-two{
+        top: 2px;
+        right: 1px;
+    }
+    .close-one{
+        background: rgba(200, 200, 200, .4);
+        border-left: transparent;
+    }
+    .close-two{
+        left: 0px;
+        top: 0px;
+    }
+
+</style>
+
 </head>
 <body>
 	<h1><%= title %></h1>
@@ -37,6 +74,10 @@
 
 	<div id="demo" class="btn">BTN</div>
 
+<div id="outBox" class="open-one">
+    <div id="inBox" class="open-two"></div>
+</div>
+
 <% include includes/scripts %>
 <script src="javascripts/event_target.js"></script>
 <script src="javascripts/eventutil.js"></script>
@@ -46,6 +87,18 @@
 <script src="javascripts/demo.js"></script>
 <script src="javascripts/tools.js"></script>
 <script src="javascripts/loading.js"></script>
+
+<script>
+    var oBox = document.getElementById("outBox");
+    var iBox = document.getElementById("inBox");
+
+    iBox.onclick=function(){
+      oBox.className=(oBox.className=="close-one")?"open-one":"close-one";
+      iBox.className=(iBox.className=="close-two")?"open-two":"close-two";
+    }
+
+</script>
+
 
 <script>
 	$('#demoBtn').on('click', function(){
