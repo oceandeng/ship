@@ -1,0 +1,113 @@
+<% include includes/header%>
+<title><%= title %></title>
+<% include includes/head %>
+<style>
+	table, th , td {
+	  border: 1px solid grey;
+	  border-collapse: collapse;
+	  padding: 5px;
+	}
+	table tr:nth-child(odd) {
+	  background-color: #f1f1f1;
+	}
+	table tr:nth-child(even) {
+	  background-color: #ffffff;
+	}
+</style>
+</head>
+<body ng-app="myApp">
+
+<article>
+	<section ng-controller="myCtrl">
+		名：<input type="text" ng-model="firstName">
+		姓：<input type="text" ng-model="lastName">
+		姓名：{{firstName + ' ' + lastName}}
+
+		fn: {{fullName()}}
+
+		{{lastName | uppercase}}
+	</section>
+
+	<section ng-controller="namesCtrl">
+		<div><input type="text" ng-model="test"></div>
+		<ul>
+			<li ng-repeat="x in names | filter:test | orderBy:'country' ">{{x.name + ' ' + x.country}}</li>
+		</ul>
+	</section>
+
+	<section ng-controller="costCtrl">
+		{{quantity * cost | currency}}
+	</section>
+
+	<section ng-controller="customCtrl">
+		<button ng-click="toggle()">显示/隐藏</button>
+
+		<table ng-hide="myVar">
+			<tr ng-repeat="x in names | orderBy: 'City'">
+				<td>{{ $index + 1 }}</td>
+				<td ng-if="$odd" style="background: #f1f1f1">{{ x.Name }}</td>
+				<td ng-if="$even">{{ x.Name }}</td>
+				<td ng-if="$odd" style="background: #f1f1f1">{{ x.City | uppercase }}</td>
+				<td ng-if="$even">{{ x.City | uppercase }}</td>
+			</tr>
+		</table>
+	</section>
+
+	<section>
+		<button ng-disabled="mySwitch" style="height: 50px;">点我</button>
+		<div><input type="checkbox" ng-model="mySwitch"> 按钮</div>
+	</section>
+
+	<section>
+		<div ng-show="true">我是可见的</div>
+		<div ng-show="false">我是不可见的</div>
+		<div ng-hide="true">我是隐藏的</div>
+		<div ng-hide="false">我是不隐藏的</div>
+	</section>
+
+	<section ng-controller="eventCtrl">
+		<div ng-click="count = count + 1">点我</div>
+		<div>{{ count }}</div>
+	</section>
+
+	<section ng-controller="formCtrl">
+		<form novalidate>
+			<input type="text" ng-model="user.firstName">
+			<input type="text" ng-model="user.lastName">
+			<button ng-click="reset()">RESET</button>
+		</form>
+		<div>
+			{{user}}
+			{{master}}
+		</div>
+	</section>
+
+	<form ng-controller="validateCtrl" name="myForm" novalidate>
+		<div>
+			<h2>用户名</h2>
+			<input type="text" name='user' ng-model="user" required>
+			<span style="color: red" ng-show="myForm.user.$dirty && myForm.user.$invalid">
+				<span ng-show="myForm.user.$error.required">用户名是必须的。</span>
+			</span>
+		</div>
+
+		<div>
+			<h2>邮箱:</h2>
+			<input type="email" name="email" ng-model="email" required>
+			<span style="color:red" ng-show="myForm.email.$dirty && myForm.email.$invalid">
+				<span ng-show="myForm.email.$error.required">邮箱是必须的。</span>
+				<span ng-show="myForm.email.$error.email">非法的邮箱。</span>
+			</span>
+		</div>
+
+		<div>
+			<input type="submit" ng-disabled="myForm.user.$dirty && myForm.user.$invalid ||
+			myForm.email.$dirty && myForm.email.$invalid">
+		</div>
+	</form>
+</article>
+
+<script src="libs/angular/angular.min.js"></script>
+<script src="javascripts/controller.js"></script>
+
+<% include includes/foot %>

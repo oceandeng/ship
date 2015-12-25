@@ -1,10 +1,9 @@
 <% include includes/header%>
 <title><%= title %></title>
 <% include includes/head %>
-<link rel="stylesheet" href="stylesheets/mobiscroll/mobiscroll.css">
-<link rel="stylesheet" href="stylesheets/mobiscroll/mobiscroll.wheels.css">
-<link rel="stylesheet" href="stylesheets/mobiscroll/mobiscroll.skin.css">
-<link rel="stylesheet" href="stylesheets/style.css">
+<link rel="stylesheet" href="stylesheets/mobiscroll/mobiscroll.frame.css">
+<link rel="stylesheet" href="stylesheets/mobiscroll/mobiscroll.scroller.css">
+
 </head>
 <body>
 	<h1><%= title %></h1>
@@ -15,9 +14,54 @@
 		</div>
 	</div>
 
+	<!-- Image demo markup -->
+    <div class="demo-list">
+        <ul id="freeSel" style="display: none;">
+            <li>
+                <ul>
+                    <li>a</li>
+                    <li>b</li>
+                    <li>c</li>
+                </ul>
+                <ul>
+                    <li>aa</li>
+                    <li>bb</li>
+                    <li>cc</li>
+                </ul>
+                <ul>
+                    <li>aaa</li>
+                    <li>bbb</li>
+                    <li>ccc</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
 <% include includes/scripts %>
 <!-- <script src="javascripts/mobiscroll/mobiscroll.zepto.js"></script> -->
 <script src="javascripts/mobiscroll/mobiscroll.core.js"></script>
 <script src="javascripts/mobiscroll/mobiscroll.frame.js"></script>
 <script src="javascripts/mobiscroll/mobiscroll.scroller.js"></script>
+<script src="javascripts/mobiscroll/i18n/mobiscroll.i18n.zh.js"></script>
+
+<script src="javascripts/mobiscroll/mobiscroll.comlist.js"></script>
+
+<script>
+    $(function(){
+        $('#freeSel').mobiscroll().commonlist({
+            theme: $.mobiscroll.defaults.theme,
+            mode: 'mixed',
+            display: 'bottom',
+            lang: 'zh',
+            placeholder: '请选择',
+            headerText: function (valueText) {
+                return "请选择";
+            },
+            formatResult: function(array){
+                return array;
+            }
+        })
+    });
+</script>
+
 <% include includes/foot %>

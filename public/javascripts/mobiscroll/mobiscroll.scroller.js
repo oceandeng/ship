@@ -243,13 +243,11 @@
                 values = w.values || [],
                 keys = w.keys || values;
 
-// console.log(wheels);
-
             $.each(values, function (j, v) {
                 if (l % 20 === 0) {
                     html += '</div><div class="dw-bf">';
                 }
-                html += '<div role="option" aria-selected="false" class="dw-li dw-v" data-val="' + keys[j] + '"' + (labels[j] ? ' aria-label="' + labels[j] + '"' : '') + ' style="height:' + itemHeight + 'px;line-height:' + itemHeight + 'px;">' +
+                html += '<div role="option" aria-selected="false" class="dw-li dw-v" data-val="' + keys[j] + '"' + 'data-date="' + values[keys[j]] + '"' + (labels[j] ? ' aria-label="' + labels[j] + '"' : '') + ' style="height:' + itemHeight + 'px;line-height:' + itemHeight + 'px;">' +
                     '<div class="dw-i"' + (lines > 1 ? ' style="line-height:' + Math.round(itemHeight / lines) + 'px;font-size:' + Math.round(itemHeight / lines * 0.8) + 'px;"' : '') + '>' + v + '</div></div>';
                 l++;
             });
@@ -323,6 +321,7 @@
                 v = cells.index(cell),
                 l = cells.length;
 
+
             if (multiple) {
                 setGlobals(t);
             } else if (!cell.hasClass('dw-v')) { // Scroll to a valid cell
@@ -371,20 +370,79 @@
             };
         }
 
+        function getValidDate(val, t, dir, multiple, select) {
+            var selected,
+                cell = $('.dw-li[data-val="' + val + '"]', t),
+                cells = $('.dw-li', t),
+                v = cells.index(cell),
+                l = cells.length;
+
+
+            if (multiple) {
+                setGlobals(t);
+            } else if (!cell.hasClass('dw-v')) { // Scroll to a valid cell
+                var cell1 = cell,
+                    cell2 = cell,
+                    dist1 = 0,
+                    dist2 = 0;
+
+                while (v - dist1 >= 0 && !cell1.hasClass('dw-v')) {
+                    dist1++;
+                    cell1 = cells.eq(v - dist1);
+                }
+
+                while (v + dist2 < l && !cell2.hasClass('dw-v')) {
+                    dist2++;
+                    cell2 = cells.eq(v + dist2);
+                }
+
+                // If we have direction (+/- or mouse wheel), the distance does not count
+                if (((dist2 < dist1 && dist2 && dir !== 2) || !dist1 || (v - dist1 < 0) || dir == 1) && cell2.hasClass('dw-v')) {
+                    cell = cell2;
+                    v = v + dist2;
+                } else {
+                    cell = cell1;
+                    v = v - dist1;
+                }
+            }
+
+            selected = cell.hasClass('dw-sel');
+
+            if (select) {
+                if (!multiple) {
+                    $('.dw-sel', t).removeAttr('aria-selected');
+                    cell.attr('aria-selected', 'true');
+                }
+
+                // Add selected class to cell
+                $('.dw-sel', t).removeClass('dw-sel');
+                cell.addClass('dw-sel');
+            }
+
+            return {
+                selected: selected,
+                v: multiple ? constrain(v, min, max) : v,
+                val: cell.hasClass('dw-v') || multiple ? cell.attr('data-date') : null
+            };
+        }
+
         function scrollToPos(time, index, manual, dir, active) {
             // Call validation event
             if (trigger('validate', [$markup, index, time, dir]) !== false) {
+
                 // Set scrollers to position
                 $('.dw-ul', $markup).each(function (i) {
                     var t = $(this),
                         multiple = t.closest('.dwwl').hasClass('dwwms'),
                         sc = i == index || index === undefined,
                         res = getValid(that._tempWheelArray[i], t, dir, multiple, true),
+                        resDate = getValidDate(that._tempWheelArray[i], t, dir, multiple, true),
                         selected = res.selected;
 
                     if (!selected || sc) {
                         // Set valid value
                         that._tempWheelArray[i] = res.val;
+                        that._tempWheelDateArray[i] = resDate.val;
 
                         // Scroll to position
                         scroll(t, i, res.v, sc ? time : 0.1, sc ? active : false);
@@ -394,6 +452,7 @@
                 trigger('onValidated', []);
 
                 // Reformat value if validation changed something
+                // that._tempValue = s.formatValue(that._tempWheelArray, that);
                 that._tempValue = s.formatValue(that._tempWheelArray, that);
 
                 if (that.live) {
@@ -415,6 +474,7 @@
 
             // Set selected scroller value
             that._tempWheelArray[idx] = $('.dw-li', t).eq(val).attr('data-val');
+            that._tempWheelDateArray[idx] = $('.dw-li', t).eq(val).attr('data-date');
 
             scroll(t, idx, val, time, active);
 
@@ -440,6 +500,7 @@
             }
 
             that._tempValue = s.formatValue(that._tempWheelArray, that);
+            that._tempDateValue = s.formatValue(that._tempWheelDateArray, that);
 
             if (!temp) {
                 that._wheelArray = that._tempWheelArray.slice(0);
@@ -448,7 +509,8 @@
 
             if (fill) {
 
-                trigger('onValueFill', [that._hasValue ? that._tempValue : '', change]);
+                // trigger('onValueFill', [that._hasValue ? that._tempValue : '', change]);
+                trigger('onValueFill', [that._hasValue ? that._tempDateValue : '', change]);
 
                 if (that._isInput) {
                     $elm.val(that._hasValue ? that._tempValue : '');
@@ -561,7 +623,6 @@
                 html = '',
                 l = 0;
 
-
             $.each(s.wheels, function (i, wg) { // Wheel groups
                 html += '<div class="mbsc-w-p dwc' + (s.mode != 'scroller' ? ' dwpm' : ' dwsc') + (s.showLabel ? '' : ' dwhl') + '">' +
                     '<div class="dwwc"' + (s.maxWidth ? '' : ' style="max-width:600px;"') + '>' +
@@ -569,7 +630,6 @@
 
                 $.each(wg, function (j, w) { // Wheels
                     wheels[l] = w;
-
                     lbl = w.label !== undefined ? w.label : j;
                     html += '<' + (hasFlex ? 'div' : 'td') + ' class="dwfl"' + ' style="' +
                         (s.fixedWidth ? ('width:' + (s.fixedWidth[l] || s.fixedWidth) + 'px;') :
@@ -632,6 +692,9 @@
             }
 
             that._tempWheelArray = that._hasValue && that._wheelArray ? that._wheelArray.slice(0) : s.parseValue.call(el, v, that) || [];
+
+            that._tempWheelDateArray = that._hasValue && that._wheelArray ? that._wheelArray.slice(0) : s.parseValue.call(el, v, that) || [];
+            
             setValue();
         };
 
@@ -681,7 +744,7 @@
             // Options
             minWidth: 80,
             height: 40,
-            rows: 3,
+            rows: 1,
             multiline: 1,
             delay: 300,
             readonly: false,

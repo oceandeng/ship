@@ -125,7 +125,6 @@
                 i++;
             }
 
-
             return w;
         }
 
@@ -307,8 +306,14 @@
                 elm.show();
             },
             validate: function (dw, index, time) {
-
+               
             }
         };
     };
+})(jQuery);
+
+(function ($) {
+    var ms = $.mobiscroll;
+
+    ms.presetShort('commonlist');
 })(jQuery);

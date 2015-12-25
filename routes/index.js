@@ -28,6 +28,11 @@ var router = function(app){
 		res.render('mobiscroll', {title: 'Mobiscroll'});
 	});
 
+// -- GET Angular listing
+	app.get('/angular', function(req, res, next){
+		res.render('angular', {title: 'Angular'});
+	})
+
 //-- POST DEMO listing
 	app.post('/demo', function(req, res, next){
 		var user = req.body.user;
