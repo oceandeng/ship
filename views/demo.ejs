@@ -51,6 +51,7 @@
 </head>
 <body>
 	<h1><%= title %></h1>
+	<div id="demo" class="btn">loading</div>
 
 	<form action="/demo", method="post">
 		<input type="text" value="" id="user" name="user">
@@ -72,7 +73,6 @@
 	</form>
 	<div id="userBtn" class="btn">AJAX提交</div>
 
-	<div id="demo" class="btn">BTN</div>
 
 <div id="outBox" class="open-one">
     <div id="inBox" class="open-two"></div>
@@ -83,7 +83,6 @@
 <script src="javascripts/eventutil.js"></script>
 <script src="javascripts/drag.js"></script>
 <script src="libs/underscore/underscore.js"></script>
-<script src="javascripts/event_target.js"></script>
 <script src="javascripts/demo.js"></script>
 <script src="javascripts/tools.js"></script>
 <script src="javascripts/loading.js"></script>
@@ -99,6 +98,14 @@
 
 </script>
 
+<script type="text/javascript">
+	
+	document.addEventListener('touchmove', function(e){
+		var eventPos = e.changedTouches[0];
+		document.querySelector('#demo').innerHTML = eventPos.clientX;
+	}, false);
+
+</script>
 
 <script>
 	$('#demoBtn').on('click', function(){
@@ -106,7 +113,7 @@
 
 		$.ajax({
 			type: 'POST',
-			url: 'http://192.168.13.50:3000/demo',
+			url: 'http://localhost:3000/demo',
 			dataType: 'json',
 			data: {user: con},
 			before: function(){
@@ -126,7 +133,7 @@
 
 		$.ajax({
 			type: 'POST',
-			url: 'http://192.168.13.50:3000/users',
+			url: 'http://localhost:3000/users',
 			dataType: 'json',
 			data: {username: uName},
 			success: function(res){
