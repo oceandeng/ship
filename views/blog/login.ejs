@@ -1,0 +1,15 @@
+<% include includes/head %>
+<title><%= title %></title>
+<% include includes/style %>
+</head>
+<body>
+<h1><%= title %></h1>
+<p>Welcome to <%= title %></p>
+
+<form method="post">
+	用户名: <input type="text" name="username" /><br/>
+	密码: <input type="password" name="password" /><br/>
+	<input type="submit" value="登录">
+</form>
+
+<% include includes/foot %>

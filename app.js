@@ -5,10 +5,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+var flash = require('connect-flash');
 
-mongoose.connect('mongodb://localhost/ship');
+// mongoose.connect('mongodb://localhost/ship');
 
 var routes = require('./routes/index');
+var blogRouter = require('./routes/blog');
+var settings = require('./settings');
 // var users = require('./routes/user');
 // var demo = require('./routes/demo');
 // var d3 = require('./routes/d3');
@@ -20,6 +25,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'jade');
 app.set('view engine', 'ejs');
+app.use(flash());
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -30,12 +36,23 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 routes(app);
+blogRouter(app);
 // app.use('/', routes);
 // app.use('/users', users);
 // app.use('/demo', demo);
 // app.use('/d3', d3);
 // app.use('/mobiscroll', mobiscroll);
 
+app.use(session({
+  secret: settings.cookieSecret,
+  key: settings.db,                       //cookie name
+  cookie: {maxAge: 1000 * 60 * 24 * 30},  // 30days
+  store: new MongoStore({
+    db: settings.db,
+    host: settings.host,
+    port: settings.port
+  })
+}));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

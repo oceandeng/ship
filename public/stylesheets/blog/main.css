@@ -1,0 +1,29 @@
+body {
+    padding: 0;
+    margin: 0;
+	font: 14px "Microsoft Yahei" "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+input, select {
+    width: 100%;
+    padding: 5px;
+    margin: 5px 0;
+    border: 1px solid #aaa;
+    box-sizing: border-box;
+    border-radius: 5px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -webkit-border-radius: 5px;
+}
+
+nav{
+    display: block; float: left; font-family:"Microsoft YaHei"; font-size: 1.1em; text-transform: uppercase;  width: 9em; text-align: right;
+}
+nav span{
+    display: block;
+}
+nav a{
+    display: block; text-decoration: none; padding: 0.7em 1em; color: #000;
+}
+nav a:hover{
+    background-color: #f00; color: #f9f9f9; -webkit-transition: color .2s linear;
+}
