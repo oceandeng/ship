@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-08-02 16:17:04
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-03 22:57:38
+* @Last Modified time: 2016-01-10 15:05:00
 */
 
 'use strict';
@@ -20,14 +20,15 @@ var sprites = {
 	enemy_bee: {sx: 79, sy: 0, w: 37, h: 43, frames: 1},
 	enemy_ship: {sx: 116, sy: 0, w: 42, h: 43, frames: 1},
 	enemy_circle: {sx: 158, sy: 0, w: 32, h: 33, frames: 1},
-	explosion: {sx: 0, sy: 64, w: 64, h: 64, frames: 12}
+	explosion: {sx: 0, sy: 64, w: 64, h: 64, frames: 12},
+	enemy_missile: {sx: 9, sy: 42, w: 3, h: 20, frame: 1}
 };
 
 var enemies = {
-	straight: {x: 0, y: -50, sprite: 'enemy_ship', health: 10, E: 100},
-	ltr: {x: 0, y: -100, sprite: 'enemy_purple', health: 10, B: 200, C: 1, E: 200},
+	straight: {x: 0, y: -50, sprite: 'enemy_ship', health: 10, E: 100, firePercentage: 0.001},
+	ltr: {x: 0, y: -100, sprite: 'enemy_purple', health: 10, B: 200, C: 1, E: 100, missiles: 2},
 	circle: {x: 400, y: -50, sprite: 'enemy_circle', health: 10, A: 0, B: -200, C: 1, E: 20, F: 200, G: 1, H: Math.PI/2},
-	wiggle: {x: 100, y: -50, sprite: 'enemy_bee', health: 20, B: 100, C: 4, E: 100},
+	wiggle: {x: 100, y: -50, sprite: 'enemy_bee', health: 20, B: 100, C: 4, E: 100, firePercentage: 0.001, missiles: 2},
 	step: {x: 0, y: -50, sprite: 'enemy_circle', health:10, B: 300, C: 1.5, E: 60}
 };
 
@@ -57,6 +58,7 @@ var playGame = function(){
 	board.add(new PlayerShip());
 	board.add(new Level(level1, winGame));
 	Game.setBoard(3, board);
+	Game.setBoard(5, new GamePoints(0));
 	// Game.setBoard(3, new TitleScreen('Alien Invasion', 'Game Started...'));
 };
 
@@ -136,7 +138,7 @@ var PlayerShip = function(){
 
 	this.reload = this.reloadTime;
 	this.x = Game.width/2 - this.w/2;
-	this.y = Game.height - 10 - this.h;
+	this.y = Game.height - Game.playerOffset - this.h;
 
 	this.step = function(dt){
 		// TODO - added the next section
@@ -157,8 +159,9 @@ var PlayerShip = function(){
 		}
 
 		this.reload -= dt;
-		if(Game.keys['fire'] && this.reload < 0){
-			Game.keys['fire'] = false;
+		if(this.reload < 0){
+		// if(Game.keys['fire'] && this.reload < 0){
+			// Game.keys['fire'] = false;
 			this.reload = this.reloadTime;
 			this.board.add(new PlayerMissile(this.x, this.y + this.h / 2));
 			this.board.add(new PlayerMissile(this.x + this.w, this.y + this.h / 2));
@@ -207,7 +210,7 @@ var Enemy = function(blueprint, override){
 
 Enemy.prototype = new Sprite();
 Enemy.prototype.type = OBJECT_ENEMY;
-Enemy.prototype.baseParameters = {A: 0, B: 0, C: 0, D: 0, E: 0, F: 0, G: 0, H: 0, t: 0};
+Enemy.prototype.baseParameters = {A: 0, B: 0, C: 0, D: 0, E: 0, F: 0, G: 0, H: 0, t: 0, firePercentage: 0.01, reloadTime: 0.75, reload: 0};
 
 Enemy.prototype.step = function(dt){
 	this.t += dt;
@@ -221,6 +224,18 @@ Enemy.prototype.step = function(dt){
 		collision.hit(this.damage);
 		this.board.remove(this);
 	}
+
+	if(this.reload <= 0 && Math.random() < this.firePercentage){
+		this.reload = this.reloadTime;
+		if(this.missiles == 2){
+			this.board.add(new EnemyMissile(this.x + this.w - 2, this.y + this.h / 2));
+			this.board.add(new EnemyMissile(this.x + 2, this.y + this.h / 2));
+		}else{
+			this.board.add(new EnemyMissile(this.x + this.w / 2, this.y + this.h));
+		}
+	}
+	this.reload -= dt;
+
 	if(this.y > Game.height || this.x < -this.w || this.x > Game.width){
 		this.board.remove(this);
 	}
@@ -230,6 +245,7 @@ Enemy.prototype.hit = function(damage){
 	this.health -= damage;
 	if(this.health <= 0){
 		if(this.board.remove(this)){
+			Game.points += this.points || 100;
 			this.board.add(new Explosion(this.x + this.w / 2, this.y + this.h/2));
 		}
 	}
@@ -247,6 +263,25 @@ Explosion.prototype = new Sprite();
 Explosion.prototype.step = function(dt){
 	this.frame = Math.floor(this.subFrame ++ / 3);
 	if(this.subFrame >= 36){
+		this.board.remove(this);
+	}
+}
+
+var EnemyMissile = function(x, y){
+	this.setup('enemy_missile', {vy: 200, damage: 10});
+	this.x = x - this.w/2;
+	this.y = y;
+};
+
+EnemyMissile.prototype = new Sprite();
+EnemyMissile.prototype.type = OBJECT_ENEMY_PROJECTILE;
+EnemyMissile.prototype.step = function(dt){
+	this.y += this.vy * dt;
+	var collision = this.board.collide(this, OBJECT_PLAYER);
+	if(collision){
+		collision.hit(this.damage);
+		this.board.remove(this);
+	}else if(this.y > Game.height){
 		this.board.remove(this);
 	}
 }
