@@ -1,0 +1,49 @@
+// custom mixin
+@mixin clearfix(){
+  *zoom: 1;
+  &:before,
+  &:after {
+    display: table;
+    content: "";
+    line-height: 0;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin font-14(){
+  font-size: 14px;
+}
+
+@mixin full-img(){
+  img{
+    max-width: 100%;
+  }
+}
+
+@mixin line-height($height: 50px){
+  height: $height;
+  line-height: $height;
+  text-align: center;
+}
+
+@mixin button($height: 50px, $color: #ff8502){
+  @include line-height($height);
+  background: $color;
+  font-size: 18px;
+}
+
+@mixin text-overflow(){
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow : ellipsis;
+}
+
+@mixin border-top($b-color: #e8e8e8){
+  border-top: 1px solid $b-color;
+}
+
+@mixin border-bottom($b-color: #e8e8e8){
+  border-bottom: 1px solid $b-color;
+}

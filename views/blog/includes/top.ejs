@@ -1,0 +1,14 @@
+<nav class="top-bar">
+	<% if(user) { %>
+	<p class="t-username">欢迎你! <%= user.username %></p>
+	<% } %>
+
+	<span><a title="主页" href="/blog/">主页</a></span>
+	<% if(user) { %>
+	<span><a title="发博客" href="/blog/post">发博客</a></span>
+	<span><a title="退出" href="/blog/logout">退出</a></span>
+	<% } else { %>
+	<span><a title="登录" href="/blog/login">登录</a></span>
+	<span><a title="注册" href="/blog/reg">注册</a></span>
+	<% } %>
+</nav>

@@ -2,16 +2,36 @@
 <title><%= title %></title>
 <% include includes/style %>
 </head>
-<body>
-<h1><%= title %></h1>
-<p>Welcome to <%= title %></p>
+<body class="bg">
 
-<form method="post">
-	用户名: <input type="text" name="username" /><br/>
-	密码: <input type="password" name="password" /><br/>
-	确认密码: <input type="password" name="password-repeat" /><br/>
-	邮箱: <input type="email" name="password-repeat" /><br/>
-	<input type="submit" value="注册">
-</form>
+<header></header>
+
+<article>
+	<div id="bgImg" class="bg-img"><img src="" alt=""></div> 
+
+	<nav class="back-bar">
+		<span><a title="返回主页" href="/blog/">返回主页</a></span>
+	</nav>
+
+	<div class="form-box">
+		<div class="logo"><img src="../images/logo.png" alt=""></div>
+		<form method="post">
+			<ul>
+				<li><input type="text" name="username" placeholder="用户名" autocomplete="off"/></li>
+				<li><input type="password" name="password" placeholder="密码"/></li>
+				<li><input type="password" name="password-repeat" placeholder="确认密码"/></li>
+				<li><input type="email" name="email" placeholder="邮箱" autocomplete="off"/></li>
+			</ul>
+				
+			<div id="submitBtn" class="submit-btn"><input type="submit" value="注册"></div>
+			<div class="new-reg"><a href="/blog/login">已有账户，去登录</a></div>
+		</form>
+	</div>
+
+</article>
+
+<footer></footer>
+
+<% include includes/script %>
 
 <% include includes/foot %>

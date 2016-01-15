@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2016-01-10 23:15:19
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-10 23:35:00
+* @Last Modified time: 2016-01-11 11:47:39
 */
 
 'use strict';
@@ -14,8 +14,6 @@ function User(user){
 	this.password = user.password;
 	this.email = user.email;
 }
-
-module.exprots = User;
 
 // 存储用户信息
 User.prototype.save = function(callback){
@@ -76,3 +74,5 @@ User.get = function(username, callback){
 		});
 	})
 }
+
+module.exports = User;

@@ -1,0 +1,244 @@
+@import "../includes/normalize";
+@import "../includes/mixin", "../includes/variable", "../includes/animate";
+
+body {
+    padding: 0;
+    margin: 0;
+	font: 14px "Microsoft Yahei" "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+input, select {
+    width: 100%;
+    padding: 5px;
+    margin: 5px 0;
+    border: 1px solid #aaa;
+    box-sizing: border-box;
+    border-radius: 5px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -webkit-border-radius: 5px;
+}
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0.1) inset;
+    background: none !important;
+}
+
+img{
+    max-width: 100%;
+}
+
+body{
+    @include clearfix();
+}
+
+.header{
+    h1{
+    }
+}
+
+.t-username{
+    float: left;
+    color: #fff;
+    margin: 0 0 0 20px;
+}
+
+.back-bar{
+    position: absolute;
+    top: 50px;
+    left: 30px;
+    display: block;
+    font-size: 1.1em;
+    text-transform: uppercase;
+    overflow: hidden;
+}
+
+.back-bar span{
+    display: inline-block;
+}
+
+.back-bar a{
+    display: block;
+    margin: 0 10px;
+    text-decoration: none;
+    width: 120px;
+    @include line-height(30px);
+    border-radius: 20px;
+    border: 1px solid #fff;
+    font-size: 14px;
+    color: #fff;
+}
+.back-bar a:hover{
+    background-color: rgba(60, 125, 230, .7);
+    color: #f9f9f9;
+    -webkit-transition: color .2s linear;
+}
+
+.top-bar{
+    width: 100%;
+    @include line-height(30px);
+    @include clearfix();
+    text-align: right;
+    background: #000100;
+
+    span{
+        display: inline-block;
+
+        &:last-child{
+            margin: 0 30px 0 0;
+        }
+    }
+    a{
+        display: block;
+        margin: 0;
+        padding: 0 20px;
+        text-decoration: none;
+        @include line-height(30px);
+        font-size: 12px;
+        color: #fff;
+
+        &:hover{
+            background-color: rgba(60, 125, 230, .7);
+            color: #f9f9f9;
+            -webkit-transition: color .2s linear;
+        }
+    }
+}
+
+.bg-img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.wrap{
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.logo{
+    text-align: center;
+    margin: 0 0 30px 0;
+}
+
+.form-box{
+    width: 320px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+
+    ul{
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        li{
+            border-bottom: 1px solid #fff;
+            padding: 0 5px;
+            margin: 0;
+
+            input{
+                @include line-height(40px);
+                background: none;
+                border: none;
+                color: #fff;
+                text-align: left;
+            }
+
+            input::-webkit-input-placeholder {
+                color: rgba(255, 255, 255, .8) !important;
+            }
+        }
+    }
+
+    .submit-btn{
+        margin: 100px 0 0 0;
+        @include line-height(50px);
+        background-color: rgba(255, 255, 255, .3);
+        border-radius: 5px;
+        text-align: center;
+
+        input{
+            display: block;
+            @include line-height(50px);
+            margin: 0;
+            padding: 0;
+            background: none;
+            border: none;
+            color: #fff;
+        }
+
+        input::-webkit-input-placeholder {
+            color: rgba(255, 255, 255, .8) !important; 
+        }
+
+        &:hover{
+            background: rgba(60, 125, 230, .7);
+        }
+    }
+}
+
+.new-reg{
+    @include line-height(30px);
+    margin: 20px 0 10px 0;
+    a{
+        color: #fff;
+        font-size: 12px;
+
+        &:hover{
+            color: $m-color;
+            text-decoration: none;
+        }
+    }
+}
+
+.post-edit{
+    padding: 10px;
+    h3{
+        margin: 20px 0;
+    }
+    .p-tit{
+        padding: 0 10px;
+        border: 1px solid #ccc;
+
+        input{
+            @include line-height(20px);
+            text-align: left;
+            border: none;
+        }
+    }
+    .sub-btn{
+        margin: 30px 0 0 0;
+
+        input{
+            @include line-height();
+            background: $m-color;
+            color: #fff;
+            padding: 0;
+            margin: 0;
+            border: none;
+            font-size: 16px;
+        }
+    }
+    textarea{
+        width: 100%;
+        min-height: 300px;
+        border: none;
+    }
+    .p-txt-area{
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+}
+
+.post-box{
+    padding: 20px 10px;
+}
+
+@media screen and (max-width: 1000px){
+    .wrap{
+        width: 100%;
+    }
+}

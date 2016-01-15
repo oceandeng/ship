@@ -3,13 +3,32 @@
 <% include includes/style %>
 </head>
 <body>
-<h1><%= title %></h1>
-<p>Welcome to <%= title %></p>
 
-<form method="post">
-	用户名: <input type="text" name="username" /><br/>
-	密码: <input type="password" name="password" /><br/>
-	<input type="submit" value="登录">
-</form>
+<header></header>
 
+<article>
+	<div id="bgImg" class="bg-img"><img src="" alt=""></div>
+
+	<nav class="back-bar">
+		<span><a title="返回主页" href="/blog/">返回主页</a></span>
+	</nav>
+	<div class="form-box">
+		<div class="logo"><img src="../images/logo.png" alt=""></div>
+		<form method="post">
+			<ul>
+				<li><input type="text" name="username" placeholder="用户名" autocomplete="off"/><br/></li>
+				<li><input type="password" name="password" placeholder="密码"/><br/></li>
+			</ul>
+
+			<div id="submitBtn" class="submit-btn"><input type="submit" value="登录"></div>
+			<div class="new-reg"><a href="/blog/reg">注册新用户</a></div>
+
+		</form>
+	</div>
+
+</article>
+
+<footer></footer>
+
+<% include includes/script %>
 <% include includes/foot %>

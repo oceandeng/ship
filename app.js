@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var flash = require('connect-flash');
+var multer = require('multer');
 
 // mongoose.connect('mongodb://localhost/ship');
 
@@ -20,6 +21,17 @@ var settings = require('./settings');
 // var mobiscroll = require('./routes/mobiscroll');
 
 var app = express();
+
+app.use(session({
+  secret: settings.cookieSecret,
+  key: settings.db,                       //cookie name
+  cookie: {maxAge: 1000 * 60 * 24 * 30},  // 30days
+  store: new MongoStore({
+    db: settings.db,
+    host: settings.host,
+    port: settings.port
+  })
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -43,16 +55,6 @@ blogRouter(app);
 // app.use('/d3', d3);
 // app.use('/mobiscroll', mobiscroll);
 
-app.use(session({
-  secret: settings.cookieSecret,
-  key: settings.db,                       //cookie name
-  cookie: {maxAge: 1000 * 60 * 24 * 30},  // 30days
-  store: new MongoStore({
-    db: settings.db,
-    host: settings.host,
-    port: settings.port
-  })
-}));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

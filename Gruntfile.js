@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-09-10 13:48:00
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-10-20 10:39:55
+* @Last Modified time: 2016-01-11 15:28:04
 */
 
 'use strict';
@@ -13,6 +13,7 @@ module.exports = function(grunt){
 	require('jit-grunt')(grunt);
 
 	var config = {
+		style: 'public',
 		app: ''
 	}
 
@@ -32,6 +33,27 @@ module.exports = function(grunt){
 				options: {
 					livereload: true
 				}
+			},
+			sass: {
+				files: ['<%= config.style %>/sass/{,*/}*.{scss,sass}'],
+				tasks: ['sass:dist']
+			}
+		},
+		
+		//--- Compiles Sass to CSS and generates necessary files if requested
+		sass: {
+			options: {
+				sourcemap: 'none',
+				style: 'compressed'
+			},
+			dist: {
+				files: [{
+					expand: true,
+					cwd: '<%= config.style %>/sass',
+					src: ['{,*/}*.{scss,sass}'],
+					dest: '<%= config.style %>/stylesheets',
+					ext: '.css'
+				}]
 			}
 		},
 
@@ -57,7 +79,7 @@ module.exports = function(grunt){
 		//--- concurrent
 		concurrent:{
 			// miss uglify
-			tasks:['nodemon','watch'],
+			tasks:['nodemon', 'watch', 'sass:dist'],
 			options:{
 				logConcurrentOutput:true
 			}
