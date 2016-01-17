@@ -86,7 +86,7 @@ body{
         display: inline-block;
 
         &:last-child{
-            margin: 0 30px 0 0;
+            margin: 0 20px 0 0;
         }
     }
     a{
@@ -235,6 +235,39 @@ body{
 
 .post-box{
     padding: 20px 10px;
+}
+
+.edit-btn{
+    padding: 10px 0 20px 0;
+    text-align: right;
+}
+.edit{
+    margin: 0 10px 0 0;
+    padding: 2px 5px;
+    border-radius: 3px;
+    background-color: #f3f3f3;
+    color: #333;
+    font-size: 13px;
+}
+.edit:hover{
+    text-decoration:none;
+    background-color: $m-color;
+    color: #fff;
+    -webkit-transition: color .2s linear;
+}
+.post-tit{
+    text-align: center;
+    font-size: 20px;
+    padding: 0 0 20px 0;
+    margin: 0 0 20px 0;
+    color: $g333;
+    border-bottom: 1px solid $b-color;
+}
+.post-post{
+    margin: 30px 0 0 0;
+    p{
+        text-indent: 2em;
+    }
 }
 
 @media screen and (max-width: 1000px){

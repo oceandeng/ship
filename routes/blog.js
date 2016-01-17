@@ -2,13 +2,14 @@
 * @Author: ocean
 * @Date:   2016-01-10 21:11:07
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-15 18:30:04
+* @Last Modified time: 2016-01-17 23:00:01
 */
 
 'use strict';
 var crypto = require('crypto');
 var User = require('../models/blog/user');
 var Post = require('../models/blog/post');
+var Comment = require('../models/blog/comment');
 
 var blogRouter = function(app){
 	app.get('/blog/', function(req, res){
@@ -135,9 +136,9 @@ var blogRouter = function(app){
 		res.redirect('/blog/');
 	});
 
-	app.get('/blog/u/:name', function(req, res){
+	app.get('/blog/u/:username', function(req, res){
 		// 检查用户是否存在
-		User.get(req.params.name, function(err, user){
+		User.get(req.params.username, function(err, user){
 			if(!user){
 				req.flash('error', '用户名不存在！');
 				return res.redirect('/blog/'); //用户不存在则跳转到主页
@@ -159,8 +160,8 @@ var blogRouter = function(app){
 		});
 	});
 
-	app.get('/blog/u/:name/:day/:title', function(req, res){
-		Post.getOne(req.params.name, req.params.day, req.params.title, function(err, post){
+	app.get('/blog/u/:username/:day/:title', function(req, res){
+		Post.getOne(req.params.username, req.params.day, req.params.title, function(err, post){
 			if(err){
 				req.flash('error', err);
 				return res.redirect('/blog/');
@@ -174,6 +175,74 @@ var blogRouter = function(app){
 			});
 		});
 	});
+
+	app.get('/blog/edit/:username/:day/:title', checkLogin);
+	app.get('/blog/edit/:username/:day/:title', function(req, res){
+		var currentUser = req.session.user;
+		Post.edit(currentUser.username, req.params.day, req.params.title, function(err, post){
+			if(err){
+				req.flash('error', err);
+				return res.redirect('back');
+			}
+			res.render('blog/edit', {
+				title: '编辑',
+				post: post,
+				user: req.session.user,
+				success: req.flash('success').toString(),
+				error: req.flash('error').toString()
+			});
+		});
+	});
+	app.post('/blog/edit/:username/:day/:title', checkLogin);
+	app.post('/blog/edit/:username/:day/:title', function(req, res){
+		var currentUser = req.session.user;
+		Post.update(currentUser.username, req.params.day, req.params.title, req.body.post, function(err){
+			var url = encodeURI('/blog/u/' + req.params.username + '/' + req.params.day + '/' + req.params.title);
+			if(err){
+				req.flash('error', err);
+				return res.redirect(url); //出错返回文章页
+			}
+			req.flash('success', '修改成功！');
+			res.redirect(url); // 成功！返回文章页
+		})
+	})
+
+	app.get('/blog/remove/:username/:day/:title', checkLogin);
+	app.get('/blog/remove/:username/:day/:title', function(req, res){
+		var currentUser = req.session.user;
+		Post.remove(currentUser.username, req.params.day, req.params.title, function(err){
+			if(err){
+				req.flash('error', err);
+				return res.redirect('back');
+			}
+			req.flash('success', '删除成功！');
+			res.redirect('/blog/');
+		})
+	});
+
+	app.post('/u/:username/:day/:title', function(req, res){
+		var date = new Date(),
+			time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "" + date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
+
+		var comment = {
+			username: req.body.username,
+			email: req.body.email,
+			website: req.body.website,
+			time: time,
+			content: req.body.content
+		}
+
+		var newComment = new Comment(req.params.name, req.params.day, req.params.title, comment);
+
+		newComment.save(function(err){
+			if(err){
+				req.flash('error', err);
+				return res.redirect('back');
+			}
+			req.flash('success', '留言成功！');
+			res.redirect('back');
+		})
+	})
 
 	app.use(function (req, res) {
 		res.render("404");

@@ -1,7 +1,33 @@
 <% include includes/head %>
-<p class="info">
-	作者：<a href="/u/<%= post.username %>"><%= post.username %></a> | 
-	日期：<%= post.time.minute %>
-</p>
-<p><%- post.post %></p>
+<title><%= title %></title>
+<% include includes/style %>
+</head>
+<body>
+<header>
+	<% include includes/top %>
+</header>
+
+<article class="wrap">
+	<section class="post-box">
+		<div class="edit-btn">
+			<% if(user && (user.username == post.username)) { %>
+				<span><a class="edit" href="/blog/edit/<%= post.username%>/<%= post.time.day%>/<%= post.title%>">编辑</a></span>
+				<span><a class="edit" href="/blog/remove/<%= post.username%>/<%= post.time.day%>/<%= post.title%>">删除</a></span>
+			<% } %>
+		</div>
+		<h1 class="post-tit"><%= post.title%></h1>
+		<div class="post-info">
+			作者：<a href="/blog/u/<%= post.username %>"><%= post.username %></a> | 
+			日期：<%= post.time.minute %>
+		</div>
+		<div class="post-post"><%- post.post %></div>
+	</section>
+
+</article>
+
+<% include includes/comment %>
+
+<footer></footer>
+
+<% include includes/script %>
 <% include includes/foot %>

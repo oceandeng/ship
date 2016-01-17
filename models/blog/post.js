@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2016-01-15 10:26:29
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-15 18:03:14
+* @Last Modified time: 2016-01-17 22:44:56
 */
 
 'use strict';
@@ -35,7 +35,8 @@ Post.prototype.save = function(callback){
 		username: this.username,
 		time: time,
 		title: this.title,
-		post: this.post
+		post: this.post,
+		commnets: []
 	}
 
 	//打开数据库
@@ -119,9 +120,105 @@ Post.getOne = function(username, day, title, callback){
 					return callback(err);
 				}
 				// 解析 markdown 为 html
-				doc.post = markdown.toHTML(doc.post);
+				if(doc){
+					doc.post = markdown.toHTML(doc.post);
+					doc.comments.forEach(function(comment){
+						comment.content = markdown.toHTML(comment.content);
+					});
+				}
 				callback(null, doc);
 			});
 		});
 	})
+}
+
+// 返回原始发表的内容（markdown 格式）
+Post.edit = function(username, day, title, callback){
+	// 打开数据库
+	mongodb.open(function(err, db){
+		if(err){
+			return callback(err);
+		}
+		// 读取 posts 集合
+		db.collection('posts', function(err, collection){
+			if(err){
+				mongodb.close();
+				return callback(err);
+			}
+			// 根据用户名、发表日期及文章名进行查询
+			collection.findOne({
+				"username": username,
+				"time.day": day,
+				"title": title
+			}, function(err, doc){
+				mongodb.close();
+				if(err){
+					return callback(err);
+				}
+				callback(null, doc);  //返回查询的一篇文章（markdown 格式)
+			})
+		})
+	})
+}
+
+// 更新一篇文章及其相关信息
+Post.update = function(username, day, title, post, callback){
+	// 打开数据库
+	mongodb.open(function(err, db){
+		if(err){
+			return callback(err);
+		}
+		// 读取posts集合
+		db.collection('posts', function(err, collection){
+			if(err){
+				mongodb.close();
+				return callback(err);
+			}
+			// 更新文章内容
+			collection.update({
+				"username": username,
+				"time.day": day,
+				"title": title
+			}, {
+				$set: {post: post}
+			}, function(err, doc){
+				mongodb.close();
+				if(err){
+					return callback(err);
+				}
+				callback(null);
+			});
+		})
+	})
+}
+
+// 删除一篇文章
+Post.remove = function(username, day, title, callback){
+	// 打开数据库
+	mongodb.open(function(err, db){
+		if(err){
+			return callback(err);
+		}
+		// 连接posts 集合
+		db.collection('posts', function(err, collection){
+			if(err){
+				mongodb.close();
+				return callback(err);
+			}
+			// 根据用户名、日期和标题查找并删除一篇文章
+			collection.remove({
+				"username": username,
+				"time.day": day,
+				"title": title
+			}, {
+				w: 1
+			}, function(err){
+				mongodb.close();
+				if(err){
+					return callback(err);
+				}
+				callback(null);
+			})
+		})
+	});
 }

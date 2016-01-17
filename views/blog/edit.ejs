@@ -1,0 +1,28 @@
+<% include includes/head %>
+<title><%= title %></title>
+<% include includes/style %>
+</head>
+<body>
+<header>
+	<% include includes/top %>
+</header>
+
+<article class="wrap">
+	<section class="post-edit">
+		<form method="post">
+			<h3>标题：</h3>
+			<div class="p-tit"><input type="text" name="title" value="<%= post.title%>" disabled="disabled"/></div>
+
+			<h3>正文：</h3>
+			<div class="p-txt-area"><textarea name="post"><%= post.post%></textarea></div>
+
+			<div id="subBtn" class="sub-btn"><input type="submit" value="保存修改" /></div>
+		</form>
+	</section>
+
+</article>
+
+<footer></footer>
+
+<% include includes/script %>
+<% include includes/foot %>
