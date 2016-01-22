@@ -1,0 +1,73 @@
+<% include includes/head %>
+<title><%= title %></title>
+<% include includes/style %>
+</head>
+<body>
+
+<header><% include includes/top %></header>
+
+<article class="wrap">
+	<section class="post-edit">
+			<div id="uphead">
+				<div id="headImg"></div>
+				<input type="file" name="userhead" id="file">
+				<div id="upheadBtn" class="uphead-btn"><span>选择图片</span></div>
+			</div>
+	</section>
+</article>
+
+<footer></footer>
+
+<% include includes/script %>
+
+<script>
+	$(function(){
+		var $file = $('#file');
+
+		$('#upheadBtn').on('click', function(){
+			$file.click();
+		});
+
+		$file.on('change', function(e){
+			// 从事件中获取选中的所有文件
+			var file = e.target.files || e.dataTransfer.files;
+
+console.log(file);
+			uploadFile({
+				url: '/blog/uphead',
+				file: file
+			})
+
+		});
+
+	});
+
+    function uploadFile(obj) {
+        var xhr = new XMLHttpRequest();
+        // xhr.addEventListener("load", .uploadComplete, false);
+        // xhr.addEventListener("error", uploadFailed, false);
+        // xhr.addEventListener("abort", uploadCanceled, false);
+        xhr.open("POST", obj.url, true);
+
+        var fd = new FormData();
+
+        fd.append($('#file').attr('name'), obj.file[0]);
+
+        xhr.send(fd);
+        xhr.onreadystatechange=function(){
+        	if(xhr.readyState == 2){
+        		return;
+        	}
+            if(xhr.readyState == 4){
+                if(xhr.status == 200){
+                	console.log('上传成功！');
+		        }else{
+		            console.log("获取数据错误！错误代号："+ xhr.status +"错误信息："+ xhr.statusText);
+		        }
+            }
+        }
+    };
+
+</script>
+
+<% include includes/foot %>

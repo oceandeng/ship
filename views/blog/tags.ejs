@@ -1,0 +1,31 @@
+<% include includes/head %>
+<title><%= title %></title>
+<% include includes/style %>
+</head>
+<body>
+<header>
+	<% include includes/top %>
+</header>
+
+<article class="wrap">
+	<section class="tag-box">
+		<% posts.forEach(function (tag, index) { %>
+			<% if(tag) { %>
+				<a class="tag" href="/blog/tag/<%= tag %>"><%= tag %></a>
+			<% } %>
+		<% }) %>
+	</section>
+</article>
+
+<footer></footer>
+
+<!-- <% if (success) { %>
+	<div><%= success %></div>
+<% } %>
+<% if (error) { %>
+	<div><%= error %> </div>
+<% } %>
+-->
+
+<% include includes/script %>
+<% include includes/foot %>

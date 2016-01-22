@@ -1,0 +1,40 @@
+<% include includes/head %>
+<title><%= title %></title>
+<% include includes/style %>
+</head>
+<body>
+<header>
+	<% include includes/top %>
+</header>
+
+<article class="wrap">
+	<section class="tag-box tag-list">
+		<% var lastYear = 0 %>
+		<% posts.forEach(function (post, index) { %>
+			<% if (lastYear != post.time.year) { %>
+				<h3><%= post.time.year %></h3>
+			<% lastYear=post.time.year } %>
+			<div class="row list">
+				<div class="col-xs-3">
+					<time><%= post.time.day %></time>
+				</div>
+				<div class="col-xs-9">
+					<a href="/blog/u/<%= post.username %>/<%= post.time.day %>/<%= post.title %>"><%= post.title %></a>
+				</div>
+			</div>
+		<% }) %>
+	</section>
+</article>
+
+<footer></footer>
+
+<!-- <% if (success) { %>
+	<div><%= success %></div>
+<% } %>
+<% if (error) { %>
+	<div><%= error %> </div>
+<% } %>
+-->
+
+<% include includes/script %>
+<% include includes/foot %>

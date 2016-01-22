@@ -1,0 +1,21 @@
+<div class="page-box">
+	<div class="page-list">
+		<% if(!isFirstPage) { %>
+			<span class="prepage"><a title="上一页" href="?p=<%= page-1 %>">上一页</a></span>
+		<% } %>
+		
+		<ul>
+			<% for(var i=1; i<=total; i++) { %>
+				<% if (page == i) { %>
+					<li><a class="ac" href="?p=<%= i %>"><%= i %></a></li>
+				<% } else {%>
+					<li><a href="?p=<%= i %>"><%= i %></a></li>
+				<% } %>
+			<% } %>
+		</ul>
+
+		<% if(!isLastPage) { %>
+			<span class="nextpage"><a title="下一页" href="?p=<%= page+1 %>">下一页</a></span>
+		<% } %>
+	</div>
+</div>

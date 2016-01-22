@@ -2,14 +2,14 @@
 * @Author: ocean
 * @Date:   2016-01-17 22:11:01
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-17 22:17:25
+* @Last Modified time: 2016-01-18 10:23:44
 */
 
 'use strict';
 
-var mongodb = reuqire('../db');
+var mongodb = require('../db');
 
-function Commnet(username, day, title, comment){
+function Comment(username, day, title, comment){
 	this.username = username;
 	this.day = day;
 	this.title = title;

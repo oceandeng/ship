@@ -1,0 +1,54 @@
+[Fri Jan 22 2016 15:15:11 GMT+0800 (中国标准时间)] /libs/jquery/dist/jquery.min.map
+Error: Error getting collection: sessions
+    at G:\nodejs-project\ship\node_modules\connect-mongo\lib\connect-mongo.js:160:19
+    at Db.collection (G:\nodejs-project\ship\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\db.js:526:27)
+    at MongoStore._get_collection (G:\nodejs-project\ship\node_modules\connect-mongo\lib\connect-mongo.js:158:17)
+    at MongoStore.get (G:\nodejs-project\ship\node_modules\connect-mongo\lib\connect-mongo.js:222:10)
+    at session (G:\nodejs-project\ship\node_modules\express-session\index.js:408:11)
+    at Layer.handle [as handle_request] (G:\nodejs-project\ship\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:312:13)
+    at G:\nodejs-project\ship\node_modules\express\lib\router\index.js:280:7
+    at Function.process_params (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:330:12)
+    at next (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:271:10)
+    at expressInit (G:\nodejs-project\ship\node_modules\express\lib\middleware\init.js:33:5)
+    at Layer.handle [as handle_request] (G:\nodejs-project\ship\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:312:13)
+    at G:\nodejs-project\ship\node_modules\express\lib\router\index.js:280:7
+    at Function.process_params (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:330:12)
+    at next (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:271:10)
+[Fri Jan 22 2016 15:15:43 GMT+0800 (中国标准时间)] /libs/bootstrap/dist/css/bootstrap.min.css.map
+Error: Error getting collection: sessions
+    at G:\nodejs-project\ship\node_modules\connect-mongo\lib\connect-mongo.js:160:19
+    at Db.collection (G:\nodejs-project\ship\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\db.js:526:27)
+    at MongoStore._get_collection (G:\nodejs-project\ship\node_modules\connect-mongo\lib\connect-mongo.js:158:17)
+    at MongoStore.get (G:\nodejs-project\ship\node_modules\connect-mongo\lib\connect-mongo.js:222:10)
+    at session (G:\nodejs-project\ship\node_modules\express-session\index.js:408:11)
+    at Layer.handle [as handle_request] (G:\nodejs-project\ship\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:312:13)
+    at G:\nodejs-project\ship\node_modules\express\lib\router\index.js:280:7
+    at Function.process_params (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:330:12)
+    at next (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:271:10)
+    at expressInit (G:\nodejs-project\ship\node_modules\express\lib\middleware\init.js:33:5)
+    at Layer.handle [as handle_request] (G:\nodejs-project\ship\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:312:13)
+    at G:\nodejs-project\ship\node_modules\express\lib\router\index.js:280:7
+    at Function.process_params (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:330:12)
+    at next (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:271:10)
+[Fri Jan 22 2016 15:15:43 GMT+0800 (中国标准时间)] /libs/jquery/dist/jquery.min.map
+Error: Cannot determine state of server
+    at canCheckoutReader (G:\nodejs-project\ship\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\connection\server.js:779:12)
+    at Server.checkoutReader (G:\nodejs-project\ship\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\connection\server.js:793:16)
+    at Cursor.nextObject (G:\nodejs-project\ship\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\cursor.js:748:48)
+    at Collection.findOne (G:\nodejs-project\ship\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\collection\query.js:162:10)
+    at G:\nodejs-project\ship\node_modules\connect-mongo\lib\connect-mongo.js:223:18
+    at MongoStore._get_collection (G:\nodejs-project\ship\node_modules\connect-mongo\lib\connect-mongo.js:156:21)
+    at MongoStore.get (G:\nodejs-project\ship\node_modules\connect-mongo\lib\connect-mongo.js:222:10)
+    at session (G:\nodejs-project\ship\node_modules\express-session\index.js:408:11)
+    at Layer.handle [as handle_request] (G:\nodejs-project\ship\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:312:13)
+    at G:\nodejs-project\ship\node_modules\express\lib\router\index.js:280:7
+    at Function.process_params (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:330:12)
+    at next (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:271:10)
+    at expressInit (G:\nodejs-project\ship\node_modules\express\lib\middleware\init.js:33:5)
+    at Layer.handle [as handle_request] (G:\nodejs-project\ship\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (G:\nodejs-project\ship\node_modules\express\lib\router\index.js:312:13)

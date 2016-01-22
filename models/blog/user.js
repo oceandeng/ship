@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2016-01-10 23:15:19
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-11 11:47:39
+* @Last Modified time: 2016-01-22 14:32:20
 */
 
 'use strict';
@@ -35,9 +35,7 @@ User.prototype.save = function(callback){
 				return callback(err)
 			}
 			// 将用户数据插入users集合
-			collection.insert(user, {
-				safe: true
-			}, function(err, user){
+			collection.insert(user, {safe: true}, function(err, user){
 				mongodb.close();
 				if(err){
 					return callback(err)

@@ -9,18 +9,19 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var flash = require('connect-flash');
 var multer = require('multer');
+var fs = require('fs');
 
 // mongoose.connect('mongodb://localhost/ship');
 
 var routes = require('./routes/index');
 var blogRouter = require('./routes/blog');
+var uphead = require('./routes/uphead');
 var settings = require('./settings');
-// var users = require('./routes/user');
-// var demo = require('./routes/demo');
-// var d3 = require('./routes/d3');
-// var mobiscroll = require('./routes/mobiscroll');
 
 var app = express();
+
+var accessLog = fs.createWriteStream('access.log', {flags: 'a'});
+var errorLog = fs.createWriteStream('error.log', {flags: 'a'});
 
 app.use(session({
   secret: settings.cookieSecret,
@@ -40,20 +41,30 @@ app.set('view engine', 'ejs');
 app.use(flash());
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(logger({stream: accessLog}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 错误日志中间件
+app.use(function (err, req, res, next) {
+  var meta = '[' + new Date() + '] ' + req.url + '\n';
+  errorLog.write(meta + err.stack + '\n');
+  next();
+});
+
+// 路由调用
 routes(app);
 blogRouter(app);
-// app.use('/', routes);
-// app.use('/users', users);
-// app.use('/demo', demo);
-// app.use('/d3', d3);
-// app.use('/mobiscroll', mobiscroll);
+uphead(app);
+
+
+app.use(function (req, res) {
+  res.render("blog/404");
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
