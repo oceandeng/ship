@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2016-01-22 13:59:30
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-22 14:56:31
+* @Last Modified time: 2016-01-24 22:39:35
 */
 
 'use strict';
@@ -22,12 +22,13 @@ UpHead.prototype.save = function(callback){
 			year: date.getFullYear(),
 			month: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
 			day: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
-			minute: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMintues())
+			minute: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
 		};
 
 	var userhead = {
 		username: this.username,
-		userhead: this.userhead
+		userhead: this.userhead,
+		time: time
 	}
 
 	mongodb.open(function(err, db){
@@ -61,7 +62,7 @@ UpHead.get = function(username, callback){
 				mongodb.close();
 				return callback(err);
 			}
-			collection.find({
+			collection.findOne({
 				username: username
 			}, function(err, userhead){
 				mongodb.close();

@@ -7,6 +7,21 @@
 	<% include includes/top %>
 </header>
 <article class="wrap">
+	<section>
+		<div class="top-line row">
+			<div class="top-logo col-xs-4">
+				<a href="/blog/"><img src="/images/logo.png" alt="" /></a>
+			</div>
+			<div class="top-search col-xs-8">
+				<div class="search-box">
+					<form action="/blog/search" method="GET">
+						<input type="text" name="keyword" placeholder="请输入搜索内容!" class="search" />
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+
 	<section class="post-box">
 		<% if (posts.length != 0) { %>
 			<% posts.forEach(function(post, index) { %>

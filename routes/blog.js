@@ -2,13 +2,14 @@
 * @Author: ocean
 * @Date:   2016-01-10 21:11:07
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-22 17:08:27
+* @Last Modified time: 2016-01-24 22:51:15
 */
 
 'use strict';
 var crypto = require('crypto');
 var User = require('../models/blog/user');
 var Post = require('../models/blog/post');
+var Uphead = require('../models/blog/uphead');
 var Comment = require('../models/blog/comment');
 
 var blogRouter = function(app){
@@ -206,23 +207,34 @@ var blogRouter = function(app){
 				req.flash('error', '用户名不存在！');
 				return res.redirect('/blog/'); //用户不存在则跳转到主页
 			}
+
 			//查询并返回该用户第 page 页的 10 篇文章
 			Post.getTen(user.username, page, function(err, posts, total){
 				if(err){
 					req.flash('error', err);
 					return res.redirect('blog/');
 				}
-				res.render('blog/user', {
-					title: '首页',
-					user: req.session.user,
-					posts: posts,
-					page: page,
-					total: Math.ceil(total / pageNum),
-					isFirstPage: (page - 1) == 0,
-					isLastPage: ((page - 1) * pageNum + posts.length) == total,
-					success: req.flash('success').toString(),
-					error: req.flash('error').toString()
+
+				Uphead.get(user.username, function(err, userhead){
+					if(err){
+						req.flash('error', err);
+						return res.redirect('blog/');
+					}
+					console.log(userhead);
+					res.render('blog/user', {
+						title: '首页',
+						user: req.session.user,
+						userhead: userhead,
+						posts: posts,
+						page: page,
+						total: Math.ceil(total / pageNum),
+						isFirstPage: (page - 1) == 0,
+						isLastPage: ((page - 1) * pageNum + posts.length) == total,
+						success: req.flash('success').toString(),
+						error: req.flash('error').toString()
+					})
 				})
+
 			});
 		});
 	});
