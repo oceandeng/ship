@@ -6,7 +6,7 @@ body {
     padding: 0;
     margin: 0;
 	font: 14px "Microsoft Yahei" "Lucida Grande", Helvetica, Arial, sans-serif;
-    background: #dadee2;
+    background: url(../../images/b-bg.png) repeat;
 }
 input, select {
     width: 100%;
@@ -41,7 +41,12 @@ body{
 }
 
 .tips{
+    text-align: center;
     color: #f00;
+}
+
+.gray{
+    color: $g999;
 }
 
 .header{
@@ -216,6 +221,8 @@ body{
         background-color: rgba(60, 125, 230, .7);
         border-radius: 5px;
         text-align: center;
+        cursor: pointer;
+        color: #fff;
 
         input{
             display: block;
@@ -316,6 +323,20 @@ body{
     padding: 20px;
     background: #fff;
     border-radius: 5px;
+    position: relative;
+    box-shadow: 1px 1px 3px #ccc;
+
+    .post-head{
+        width: 70px;
+        height: 70px;
+        border-radius: 5px;
+        position: absolute;
+        left: -90px;
+
+        img{
+            border-radius: 5px;
+        }
+    }
 
     .post-list{
         margin: 0 0 10px 0;
@@ -361,16 +382,23 @@ body{
 }
 .post-post{
     margin: 30px 0 0 0;
-    p{
-        text-indent: 2em;
-    }
 }
 .comment{
-    padding: 30px 0;
+    padding: 20px 0;
     border-top: 1px solid $b-color;
 
-    .comment-content{
-        margin: 10px 0 0 0;
+    .comment-list{
+        background: #eee;
+        border-radius: 5px;
+        padding: 15px 0;
+
+        .comment-name{
+            padding: 0 20px;
+        }
+        .comment-content{
+            padding: 0 20px;
+            margin: 5px 0 15px 0;
+        }
     }
 }
 .comment-form{
@@ -473,6 +501,7 @@ body{
         padding: 0 1em;
         color: $m-color;
         font-weight: bold;
+        border-radius: 5px;
         @include line-height(40px);
         &:hover{
             text-decoration: none;
@@ -494,7 +523,7 @@ body{
     }
 }
 
-.archive, .tag-list{
+.archive, .tag-list, .tag-box{
     margin: 0;
     padding: 20px 20px 50px 20px;
     background: #fff;
@@ -505,6 +534,8 @@ body{
     h3{
         margin:0.5em 0 1em 0;
         font-size: 30px;
+        padding: 0 0 0 10px;
+        border-left: 3px solid $m-color;
     }
     time{
         font-size:14px;
@@ -550,6 +581,9 @@ body{
             -webkit-transition: color .2s linear;
         }
     }
+    .no-tag{
+        text-align: center;
+    }
 }
 
 #uphead{
@@ -591,33 +625,89 @@ body{
     }
 }
 
-.userhead{
+.user-head{
     width: 70px;
-    height: 70px;
     position: absolute;
-    border-radius: 5px;
-    background: #fff;
     box-shadow: 1px 1px 3px #ccc;
     left: -90px;
+    a{
+        background: #fff;
+        display: block;
+        border-radius: 5px;
+    }
 
     img{
+        width: 70px;
         border-radius: 5px;
-        
+    }
+
+    .modify-head{
+        display: none;
+        margin: 5px 0 0 0;
+        a{
+            padding: 3px 0;
+            width: 100%;
+            display: block;
+            text-align: center;
+            border-radius: 5px;
+            color: #fff;
+            background: rgba(60, 125, 230, .6);
+            text-decoration: none;
+            font-size: 12px;
+
+            &:hover{
+                background: rgba(60, 125, 230, .8);
+                transition: background .2s linear;
+            }
+        }
     }
 }
 
-.modify-head{
-    text-align: center;
-    margin: 5px 0 0 0;
-}
-
 footer{
-
+    .footer-nav{
+        text-align: center;
+        margin: 20px 0;
+        span{
+            margin: 0 3px;
+        }
+        .copyright{
+            color: #999;
+        }
+    }
 }
 
 .friend-link{
     text-align: center;
     margin: 30px 0 20px 0;
+}
+
+.commonweal{
+    ul{
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+
+        li{
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 1px 1px 3px #ccc;
+            margin: 0 0 20px 0;
+
+            img{
+                border-radius: 5px 5px 0 0;
+            }
+            
+            h3{
+                margin: 0;
+                padding: 10px 0;
+                text-align: center;
+
+                a{
+                    display: block;
+                }
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 500px){

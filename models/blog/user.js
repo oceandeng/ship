@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2016-01-10 23:15:19
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-22 14:32:20
+* @Last Modified time: 2016-01-28 16:15:58
 */
 
 'use strict';
@@ -31,16 +31,16 @@ User.prototype.save = function(callback){
 		// 读取users集合
 		db.collection('users', function(err, collection){
 			if(err){
-				mongodb.close;
-				return callback(err)
+				mongodb.close();
+				return callback(err);
 			}
 			// 将用户数据插入users集合
 			collection.insert(user, {safe: true}, function(err, user){
 				mongodb.close();
 				if(err){
-					return callback(err)
+					return callback(err);
 				}
-				callback(null, user[0]);
+				callback(null, user.ops[0]);
 			})
 		})
 	})

@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2016-01-22 15:30:05
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-24 23:10:13
+* @Last Modified time: 2016-01-27 17:09:22
 */
 
 'use strict';
@@ -17,7 +17,7 @@ var uphead = function(app){
 	app.get('/blog/uphead', checkLogin);
 	app.get('/blog/uphead', function(req, res){
 		var currentUser = req.session.user;
-		
+
 		Uphead.get(currentUser.username, function(err, userhead){
 			res.render('blog/uphead', {
 				title: '上a传头像',
@@ -30,8 +30,18 @@ var uphead = function(app){
 	});
 
 	app.post('/blog/uphead', function(req, res, next){
+		var user = req.session.user;
+
+		fs.mkdir('./public/files/userhead/' + user.username, 777, function(err){
+			if(err){
+				console.log(err);
+			}else{
+				console.log('create done!');
+			}
+		});
+
 		// 生成multiparty 对象，并配置上传目录路径
-		var form = new multiparty.Form({uploadDir: './public/files/userhead/'});
+		var form = new multiparty.Form({uploadDir: './public/files/userhead/' + user.username + '/'});
 		// 上传完后处理
 		form.parse(req, function(err, fields, files){
 			var filesTmp = JSON.stringify(files, null, 2);
@@ -39,10 +49,11 @@ var uphead = function(app){
 			if(err){
 				console.log('parse error' + err);
 			} else {
+
 				// console.log('parse files' + filesTmp);
 				var inputFile = files.userhead[0];
 				var uploadedPath = inputFile.path + '';
-				var dstPath = './public/files/userhead/' + inputFile.originalFilename;
+				var dstPath = './public/files/userhead/' + user.username + '/' + inputFile.originalFilename;
 
 				// 重命名为真实文件名
 				fs.rename(uploadedPath, dstPath, function(err) {
@@ -55,33 +66,39 @@ var uphead = function(app){
 			}
 
 			var json = {
-				userhead: '/files/userhead/' + inputFile.originalFilename
+				userhead: '/files/userhead/' + user.username + '/' + inputFile.originalFilename
 			}
-
-			var user = req.session.user;
-
 			var saveHead = new Uphead(user.username, json.userhead);
 
-			saveHead.save(function(err){
+			Uphead.get(user.username, function(err, userhead){
 				if(err){
 					req.flash('error', err);
 				}
-
-				req.flash('success', '上传头像成功~');
-				res.json(json);
-
-			})
+				if(userhead){
+					Uphead.update(user.username, json.userhead, function(err){
+						if(err){
+							req.flash('error', err);
+							res.redirect('/blog/uphead');
+						}
+						req.flash('success', '上传头像成功~');
+						res.json(json);
+					})
+				}else{
+					saveHead.save(function(err){
+						if(err){
+							req.flash('error', err);
+						}
+						req.flash('success', '上传头像成功~');
+						res.json(json);
+					})
+				}
+			});
 
 			// res.writeHead(200, {'content-type': 'text/plain;charset=utf-8'});
 			// res.write('received upload: \n\n');
 			// res.end(util.inspect({fields: fields, files: filesTmp}));
 		})
-
-
-
-
 	});
-
 
 	function checkLogin(req, res, next) {
 		if (!req.session.user) {

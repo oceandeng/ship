@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2016-01-11 15:50:13
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-14 18:26:17
+* @Last Modified time: 2016-01-27 17:52:01
 */
 
 'use strict';
@@ -79,6 +79,4 @@ function resizeBg ($ele, ratio){
 			marginLeft: - (sH * ratio - sW) / 2
 		});
 	}
-
-
 }

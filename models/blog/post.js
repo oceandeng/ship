@@ -2,13 +2,14 @@
 * @Author: ocean
 * @Date:   2016-01-15 10:26:29
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-22 14:26:14
+* @Last Modified time: 2016-01-27 17:23:41
 */
 
 'use strict';
 
-var mongodb = require('../db'),
-	markdown = require('markdown').markdown;
+var mongodb = require('../db');
+var Tools = require('../function/tools');
+	// markdown = require('markdown').markdown;
 
 var Post = function(username, title, tags, post){
 	this.username = username;
@@ -30,8 +31,9 @@ Post.prototype.save = function(callback){
 			day: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
 			minute: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
 		};
-
-	var abstract = this.post.substring(0, 120);
+	
+	var abstract = Tools.delHtmlTag(this.post);
+	abstract = abstract.substring(0, 120);
 
 	//要存入数据库的文档
 	var post = {
@@ -41,7 +43,7 @@ Post.prototype.save = function(callback){
 		tags: this.tags,
 		abstract: abstract,
 		post: this.post,
-		head: this.head,
+		userhead: this.userhead,
 		comments: [],
 		reprint_info: {},
 		pv: 0
@@ -95,9 +97,9 @@ Post.getAll = function(username, callback){
 				if(err){
 					return callback(err);
 				}
-				docs.forEach(function(doc){
-					doc.post = markdown.toHTML(doc.post);
-				})
+				// docs.forEach(function(doc){
+				// 	doc.post = markdown.toHTML(doc.post);
+				// })
 				callback(null, docs)
 			})
 		});
@@ -106,6 +108,7 @@ Post.getAll = function(username, callback){
 
 // 一次获取诗篇文章
 Post.getTen = function(username, page, callback){
+
 	// 打开数据库
 	mongodb.open(function(err, db){
 		if(err){
@@ -136,9 +139,9 @@ Post.getTen = function(username, page, callback){
 						return callback(err);
 					}
 					// 解析 markdown 为 html
-					docs.forEach(function (doc, index){
-						doc.post = markdown.toHTML(doc.post);
-					})
+					// docs.forEach(function (doc, index){
+					// 	doc.post = markdown.toHTML(doc.post);
+					// })
 					callback(null, docs, total);
 				})
 			})
@@ -184,10 +187,10 @@ Post.getOne = function(username, day, title, callback){
 							return callback(err);
 						}
 					})
-					doc.post = markdown.toHTML(doc.post);
-					doc.comments.forEach(function(comment){
-						comment.content = markdown.toHTML(comment.content);
-					});
+					// doc.post = markdown.toHTML(doc.post);
+					// doc.comments.forEach(function(comment){
+					// 	comment.content = markdown.toHTML(comment.content);
+					// });
 				}
 				callback(null, doc);
 			});

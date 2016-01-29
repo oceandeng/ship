@@ -8,14 +8,7 @@
 </header>
 
 <article class="wrap container">
-	<section class="userhead">
-		<% if(userhead) { %>
-			<img src="<%= userhead.userhead%>">
-		<% } else { %>
-			<img src="/files/userhead/default-head.jpg">
-		<% } %>
-		<div class="modify-head"><a href="/blog/uphead">修改</a></div>
-	</section>
+	<% include includes/userhead %>
 	<section class="post-edit">
 		<% if (posts.length != 0) { %>
 			<% posts.forEach(function (post, index) { %>
@@ -39,7 +32,7 @@
 		<% } else { %>
 			<div class="post-none">
 				还没有博客呦~ 赶紧去发一篇吧~~~
-				<a title="写博客" href="/blog/post">写博客</a>
+				<a title="写博客" href="/blog/kindeditor">写博客</a>
 			</div>
 		<% } %>
 		
@@ -50,4 +43,17 @@
 <footer></footer>
 
 <% include includes/script %>
+
+<script>
+	$(function(){
+		$('#userHead').on('mouseenter', function(){
+			var $_this = $(this);
+			$_this.find('#modifyHead').show();
+		}).on('mouseleave', function(){
+			var $_this = $(this);
+			$_this.find('#modifyHead').hide();
+		});
+	});
+</script>
+
 <% include includes/foot %>

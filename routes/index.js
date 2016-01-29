@@ -7,7 +7,6 @@ var User = require('../models/user')
 /* ROUTER */
 var router = function(app){
 
-
 //-- GET index listing
 	app.get('/', function(req, res, next) {
 	  res.render('index', { title: '首页' });

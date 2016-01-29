@@ -20,7 +20,8 @@
 				<li><input type="password" name="password" placeholder="密码"/><br/></li>
 			</ul>
 
-			<div id="submitBtn" class="submit-btn"><input type="submit" value="登录"></div>
+			<div id="submitBtn" class="submit-btn">登录</div>
+			<!-- <div id="submitBtn" class="submit-btn"><input type="submit" value="登录"></div> -->
 			<div class="new-reg"><a href="/blog/reg">注册新用户</a></div>
 
 		</form>
@@ -31,4 +32,61 @@
 <footer></footer>
 
 <% include includes/script %>
+<script src="/javascripts/extend/otools.js"></script>
+<script src="/javascripts/extend/validate.js"></script>
+<script src="/javascripts/extend/loading.js"></script>
+
+<script>
+	$(function(){
+		$('#submitBtn').on('click', function(){
+			var username = $('input[name="username"]').val(),
+				password = $('input[name="password"]').val();
+
+			if(isNull(username)){
+				oTools.alertmess('请输入用户名！')
+				return false;
+			}
+			if(username.length > 20 || username.length < 6){
+				oTools.alertmess('请输入6至20位用户名！');
+				return false;
+			}
+
+			if(isNull(password)){
+				oTools.alertmess('请输入密码！')
+				return false;
+			}
+			if(password.length > 20 || password.length < 6){
+				oTools.alertmess('请输入6至20位密码！')
+				return false;
+			}
+
+			$.ajax({
+				url: '/blog/login',
+				type: 'post',
+				data: {
+					username: username,
+					password: password
+				},
+				dataType: 'json',
+				beforeSend: function(){
+					load.start();
+				},
+				success: function(res){
+					load && load.close();
+					console.log(res);
+					if(res.success){
+						location.href = res.url;
+					}else{
+						console.log(res.error);
+					}
+				},
+				error: function(){
+					load && load.close();
+
+				}
+			})
+		});
+	});
+</script>
+
 <% include includes/foot %>

@@ -1,8 +1,10 @@
 <section class="comment">
-	<% post.comments.forEach(function (comment, index) { %>
-	<div><a href="<%= comment.website %>"><%= comment.username %></a><span class="info">回复与<%= comment.time %></span></div>
-	<div class="comment-content"><%- comment.content %></div>
-	<% }) %>
+	<div class="comment-list">
+		<% post.comments.forEach(function (comment, index) { %>
+		<div class="comment-name"><a href="<%= comment.website %>"><%= comment.username %></a><span class="info gray"> 回复于 <%= comment.time %></span></div>
+		<div class="comment-content"><%- comment.content %></div>
+		<% }) %>
+	</div>
 	<div class="comment-form">
 		<form method="post">
 			<% if(user) { %>
@@ -21,7 +23,7 @@
 				<div class="row">
 					<div class="c-t col-xs-2">网址：</div>
 					<div class="col-xs-10">
-						<div class="c-i"><input type="text" name="website" value="/u/<%= user.username %>"></div>
+						<div class="c-i"><input type="text" name="website" value="/blog/u/<%= user.username %>"></div>
 					</div>
 				</div>
 			<% } else { %>

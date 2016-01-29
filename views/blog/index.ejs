@@ -25,6 +25,18 @@
 	<section class="post-box">
 		<% if (posts.length != 0) { %>
 			<% posts.forEach(function(post, index) { %>
+				<div class="post-head">
+					<% if(post.userhead) { %>
+						<a href="/blog/u/<%= post.username %>">
+							<img src="<%= post.userhead %>" alt="">
+						</a>
+					<% } else { %>
+						<a href="/blog/u/<%= post.username %>">
+							<img src="/files/userhead/default-head.jpg" alt="">
+						</a>
+					<% } %>
+				</div>
+
 				<div class="post-list">
 					<h2><a href="/blog/u/<%= post.username %>/<%= post.time.day %>/<%= post.title %>"><%= post.title %></a></h2>
 					<p class="info">
@@ -45,7 +57,7 @@
 		<% } else { %>
 			<div class="post-none">
 				还没有博客呦~ 赶紧去发一篇吧~~~
-				<a title="写博客" href="/blog/post">写博客</a>
+				<a title="写博客" href="/blog/kindeditor">写博客</a>
 			</div>
 		<% } %>
 
@@ -55,7 +67,12 @@
 </article>
 
 
-<footer><div class="friend-link"><a title="友情链接" href="/blog/links">友情链接</a></span></footer>
+<footer>
+	<div class="footer-nav">
+		<span class="friend-link"><a title="友情链接" href="/blog/links">友情链接</a></span>
+		<span class="copyright">NODEJS驱动</span>
+	</div>
+</footer>
 
 <!-- <% if (success) { %>
 	<div><%= success %></div>

@@ -1,0 +1,9 @@
+<section id="userHead" class="user-head">
+	<% if(userhead) { %>
+		<a href="/blog/u/<%= user.username %>"><img src="<%= userhead.userhead%>"></a>
+	<% } else { %>
+		<a href="/blog/u/<%= user.username %>"><img src="/files/userhead/default-head.jpg"></a>
+	<% } %>
+
+	<div id="modifyHead" class="modify-head"><a href="/blog/uphead">修改头像</a></div>
+</section>

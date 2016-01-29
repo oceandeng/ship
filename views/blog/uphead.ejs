@@ -7,13 +7,7 @@
 <header><% include includes/top %></header>
 
 <article class="wrap container">
-	<section id="userHead" class="userhead">
-		<% if(userhead) { %>
-			<img src="<%= userhead.userhead%>">
-		<% } else { %>
-			<img src="/files/userhead/default-head.jpg">
-		<% } %>
-	</section>
+	<% include includes/userhead %>
 	<section class="post-edit">
 			<div id="uphead">
 				<div id="headImg"></div>

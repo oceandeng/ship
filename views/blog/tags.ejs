@@ -9,11 +9,18 @@
 
 <article class="wrap container">
 	<section class="tag-box">
-		<% posts.forEach(function (tag, index) { %>
-			<% if(tag) { %>
-				<a class="tag" href="/blog/tag/<%= tag %>"><%= tag %></a>
-			<% } %>
-		<% }) %>
+		<% if(posts.length != 0) { %>
+			<% posts.forEach(function (tag, index) { %>
+				<% if(tag) { %>
+					<a class="tag" href="/blog/tag/<%= tag %>"><%= tag %></a>
+				<% } %>
+			<% }) %>
+		<% } else { %>
+			<div class="no-tag">
+				暂时还没有标签哦~
+				<a title="写博客" href="/blog/kindeditor">写博客</a>
+			</div>
+		<% } %>
 	</section>
 </article>
 

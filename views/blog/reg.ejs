@@ -15,23 +15,103 @@
 
 	<div class="form-box">
 		<div class="logo"><img src="../images/logo.png" alt=""></div>
-		<form method="post">
 			<ul>
-				<li><input type="text" name="username" placeholder="用户名" autocomplete="off"/></li>
+				<li><input id="username" type="text" name="username" placeholder="用户名" autocomplete="off"/></li>
 				<li><input type="password" name="password" placeholder="密码"/></li>
 				<li><input type="password" name="password-repeat" placeholder="确认密码"/></li>
 				<li><input type="email" name="email" placeholder="邮箱" autocomplete="off"/></li>
 			</ul>
-				
-			<div id="submitBtn" class="submit-btn"><input type="submit" value="注册"></div>
+
+			<div id="submitBtn" class="submit-btn">注册</div>
+			<!-- <div id="submitBtn" class="submit-btn"><input type="submit" value="注册"></div> -->
 			<div class="new-reg"><a href="/blog/login">已有账户，去登录</a></div>
-		</form>
 	</div>
 
 </article>
-
 <footer></footer>
 
 <% include includes/script %>
+<script src="/javascripts/extend/otools.js"></script>
+<script src="/javascripts/extend/validate.js"></script>
+<script src="/javascripts/extend/loading.js"></script>
+
+<script>
+	$(function(){
+		$('#submitBtn').on('click', function(){
+			var username = $('input[name="username"]').val(),
+				password = $('input[name="password"]').val(),
+				password_re = $('input[name="password-repeat"]').val(),
+				email = $('input[name="email"]').val();
+
+			if(isNull(username)){
+				oTools.alertmess('请输入用户名！')
+				return false;
+			}
+			if(username.length > 20 || username.length < 6){
+				oTools.alertmess('请输入6至20位用户名！');
+				return false;
+			}
+
+			if(isNull(password)){
+				oTools.alertmess('请输入密码！')
+				return false;
+			}
+			if(isNull(password_re)){
+				oTools.alertmess('请输入确认密码！')
+				return false;
+			}
+			if(password.length > 20 || password.length < 6){
+				oTools.alertmess('请输入6至20位密码！')
+				return false;
+			}
+			if(password_re.length > 20 || password_re.length < 6){
+				oTools.alertmess('请输入6至20位密码！')
+				return false;
+			}
+			if(password != password_re){
+				oTools.alertmess('两次密码输入不正确！');
+				return false;
+			}
+
+			if(isNull(email)){
+				oTools.alertmess('请输入邮箱！')
+				return false;
+			}
+			if(!isEmail(email)){
+				oTools.alertmess('邮箱格式不正确！');
+				return false;
+			}
+			
+			$.ajax({
+				url: '/blog/reg',
+				type: 'post',
+				data: {
+					username: username,
+					password: password,
+					password_re: password_re,
+					email: email
+				},
+				dataType: 'json',
+				beforeSend: function(){
+					load.start();
+				},
+				success: function(res){
+					load && load.close();
+					console.log(res);
+					if(res.success){
+						location.href = res.url;
+					}else{
+						console.log(res.error);
+					}
+				},
+				error: function(){
+					load && load.close();
+
+				}
+			})
+
+		});
+	});
+</script>
 
 <% include includes/foot %>

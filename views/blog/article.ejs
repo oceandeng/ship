@@ -1,5 +1,5 @@
 <% include includes/head %>
-<title><%= title %></title>
+<title><%= title%></title>
 <% include includes/style %>
 </head>
 <body>
@@ -8,11 +8,12 @@
 </header>
 
 <article class="wrap container">
+	<% include includes/userhead %>
 	<section class="post-box">
 		<div class="edit-btn">
 			<% if(user && (user.username == post.username)) { %>
 				<span><a class="edit" href="/blog/remove/<%= post.username%>/<%= post.time.day%>/<%= post.title%>">删除</a></span>
-				<span><a class="edit" href="/blog/edit/<%= post.username%>/<%= post.time.day%>/<%= post.title%>">编辑</a></span>
+				<span><a class="edit" href="/blog/kindeditor_edit/<%= post.username%>/<%= post.time.day%>/<%= post.title%>">编辑</a></span>
 			<% } %>
 			<% var flag = 1 %>
 			<% if (user && (user.username != post.username)) { %>
@@ -51,7 +52,6 @@
 	<% include includes/comment %>
 
 </article>
-
 
 <footer></footer>
 

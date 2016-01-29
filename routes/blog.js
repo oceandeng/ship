@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2016-01-10 21:11:07
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-24 22:51:15
+* @Last Modified time: 2016-01-28 18:02:56
 */
 
 'use strict';
@@ -11,6 +11,8 @@ var User = require('../models/blog/user');
 var Post = require('../models/blog/post');
 var Uphead = require('../models/blog/uphead');
 var Comment = require('../models/blog/comment');
+var _ = require('../public/libs/underscore/underscore');
+var oTools = require('./function/tools');
 
 var blogRouter = function(app){
 	app.get('/blog/', function(req, res){
@@ -23,33 +25,94 @@ var blogRouter = function(app){
 				posts = [];
 			}
 
-			res.render('blog/index', {
-				title: '首页',
-				user: req.session.user,
-				posts: posts,
-				page: page,
-				total: Math.ceil(total / pageNum),
-				isFirstPage: (page - 1) == 0,
-				isLastPage: ((page - 1) * pageNum + posts.length) == total,
-				success: req.flash('success').toString(),
-				error: req.flash('error').toString()
-			})
+			if(posts.length == 0){
+				res.render('blog/index', {
+					title: '首页',
+					user: req.session.user,
+					posts: posts,
+					page: page,
+					total: Math.ceil(total / pageNum),
+					isFirstPage: (page - 1) == 0,
+					isLastPage: ((page - 1) * pageNum + posts.length) == total,
+					success: req.flash('success').toString(),
+					error: req.flash('error').toString()
+				});
+			} else {
+				var arr = [];
+				_.each(posts, function(ele, index, list){
+					arr.push(ele.username);
+				});
+				Uphead.getHead(arr, function(err, userhead){
+					_.each(posts, function(ele, index, list){
+						_.extend(ele, userhead[index]);
+					});
+					res.render('blog/index', {
+						title: '首页',
+						user: req.session.user,
+						posts: posts,
+						page: page,
+						total: Math.ceil(total / pageNum),
+						isFirstPage: (page - 1) == 0,
+						isLastPage: ((page - 1) * pageNum + posts.length) == total,
+						success: req.flash('success').toString(),
+						error: req.flash('error').toString()
+					});
+				});
+			}
 		})
 	});
+
 	app.get('/blog/reg', function(req, res){
 		res.render('blog/reg', {
 			title: '注册'
 		});
 	});
 	app.post('/blog/reg', function(req, res){
-		var username = req.body.username,
-			password = req.body.password,
-			password_re = req.body['password-repeat'];
+		var username = req.body['username'],
+			password = req.body['password'],
+			password_re = req.body['password_re'],
+			email = req.body['email'];
+
+		if(oTools.isNull(username)){
+			req.flash('error', '用户名为空！');
+			return res.redirect('/blog/reg');
+		}
+		if(!oTools.rLength(username)){
+			req.flash('error', '密码为空！');
+			return res.redirect('/blog/reg');
+		}
+
+		if(oTools.isNull(password)){
+			req.flash('error', '密码为空！');
+			return res.redirect('/blog/reg');
+		}
+		if(!oTools.rLength(password)){
+			req.flash('error', '密码长度为6到20位！');
+			return res.redirect('/blog/reg');
+		}
+		if(oTools.isNull(password_re)){
+			req.flash('error', '确认密码为空！');
+			return res.redirect('/blog/reg');
+		}
+		if(!oTools.rLength(password_re)){
+			req.flash('error', '确认密码长度为6到20位！');
+			return res.redirect('/blog/reg');
+		}
 		// 校验用户两次输入的密码是否一致
 		if(password_re != password){
 			req.flash('error', '两次输入的密码不一致！');
 			return res.redirect('/blog/reg');
 		}
+
+		if(oTools.isNull(email)){
+			req.flash('error', '邮箱为空！');
+			return res.redirect('/blog/reg');
+		}
+		if(!oTools.isEmail(email)){
+			req.flash('error', '邮箱格式不正确！');
+			return res.redirect('/blog/reg');
+		}
+
 		// 生成密码的md5值
 		var md5 = crypto.createHash('md5'),
 			password = md5.update(req.body.password).digest('hex');
@@ -66,20 +129,22 @@ var blogRouter = function(app){
 			}
 			if(user){
 				req.flash('error', '用户名已存在');
-				return res.redirect('/blog/reg')
+				return res.redirect('/blog/reg');
 			}
 			// 如果不存在则新增用户
 			newUser.save(function(err, user){
 				if(err){
 					req.flash('error', err);
+					res.json({error: err});
 					return res.redirect('/blog/reg');
 				}
+
 				req.session.user = user;
 				req.flash('success', '注册成功！');
-				res.redirect('/blog/');
-
 				// AJAX 返回json
-				// res.json({success:1});
+				res.json({success: 1, url: '/blog/'});
+
+				// res.redirect('/blog/');
 			})
 		})
 	});
@@ -96,11 +161,34 @@ var blogRouter = function(app){
 
 	app.post('/blog/login', checkNotLogin);
 	app.post('/blog/login', function(req, res){
+
+		var username = req.body['username'],
+			password = req.body['password'];
+
+		if(oTools.isNull(username)){
+			req.flash('error', '用户名为空！');
+			return res.redirect('/blog/reg');
+		}
+		if(!oTools.rLength(username)){
+			req.flash('error', '用户名长度为6到20位！');
+			return res.redirect('/blog/reg');
+		}
+
+		if(oTools.isNull(password)){
+			req.flash('error', '密码为空！');
+			return res.redirect('/blog/reg');
+		}
+		if(!oTools.rLength(password)){
+			req.flash('error', '密码长度为6到20位！');
+			return res.redirect('/blog/reg');
+		}
+
 		// 生成密码md5
-		var md5 = crypto.createHash('md5'),
-			password = md5.update(req.body.password).digest('hex');
+		var md5 = crypto.createHash('md5');
+		password = md5.update(password).digest('hex');
+
 		// 检查用户是否存在
-		User.get(req.body.username, function(err, user){
+		User.get(username, function(err, user){
 			if(!user){
 				req.flash('error', '用户名不存在！');
 				return res.redirect('/blog/login');
@@ -112,18 +200,28 @@ var blogRouter = function(app){
 			// 用户名和密码都匹配后，将用户信息存入session
 			req.session.user = user;
 			req.flash('success', '登录成功！');
-			res.redirect('/blog/');
+			res.json({success:1, url:'/blog/'})
+			// res.redirect('/blog/');
 		});
 	});
 
 	app.get('/blog/post', checkLogin);
 	app.get('/blog/post', function(req, res){
-		res.render('blog/post', {
-			title: '发表',
-			user: req.session.user,
-			success: req.flash('success').toString(),
-			error: req.flash('error').toString()
-		});
+		var currentUser =req.session.user;
+
+		Uphead.get(currentUser.username, function(err, userhead){
+			if(err){
+				req.flash('error', err);
+				return res.redirect('/blog/');
+			}
+			res.render('blog/post', {
+				title: '发表',
+				user: currentUser,
+				userhead: userhead,
+				success: req.flash('success').toString(),
+				error: req.flash('error').toString()
+			});
+		})		
 	});
 
 	app.post('/blog/post', checkLogin);
@@ -220,10 +318,9 @@ var blogRouter = function(app){
 						req.flash('error', err);
 						return res.redirect('blog/');
 					}
-					console.log(userhead);
 					res.render('blog/user', {
 						title: '首页',
-						user: req.session.user,
+						user: user,
 						userhead: userhead,
 						posts: posts,
 						page: page,
@@ -240,17 +337,28 @@ var blogRouter = function(app){
 	});
 
 	app.get('/blog/u/:username/:day/:title', function(req, res){
+		var user = req.session.user || {username: req.params.username};
+
 		Post.getOne(req.params.username, req.params.day, req.params.title, function(err, post){
 			if(err){
-				req.flash('error', err);
-				return res.redirect('/blog/');
+				// req.flash('error', err);
+				// return res.redirect('/blog/');
 			}
-			res.render('blog/article', {
-				title: req.params.title,
-				post: post,
-				user: req.session.user,
-				success: req.flash('success').toString(),
-				error: req.flash('error').toString()
+
+			Uphead.get(req.params.username, function(err, userhead){
+				if(err){
+					// req.flash('error', err);
+					// return res.redirect('/blog/');
+				}
+
+				res.render('blog/article', {
+					title: req.params.title,
+					user: user,
+					userhead: userhead,
+					post: post,
+					success: req.flash('success').toString(),
+					error: req.flash('error').toString()
+				});
 			});
 		});
 	});
@@ -274,6 +382,37 @@ var blogRouter = function(app){
 	});
 	app.post('/blog/edit/:username/:day/:title', checkLogin);
 	app.post('/blog/edit/:username/:day/:title', function(req, res){
+		var currentUser = req.session.user;
+		Post.update(currentUser.username, req.params.day, req.params.title, req.body.post, function(err){
+			var url = encodeURI('/blog/u/' + req.params.username + '/' + req.params.day + '/' + req.params.title);
+			if(err){
+				req.flash('error', err);
+				return res.redirect(url); //出错返回文章页
+			}
+			req.flash('success', '修改成功！');
+			res.redirect(url); // 成功！返回文章页
+		})
+	})
+
+	app.get('/blog/kindeditor_edit/:username/:day/:title', checkLogin);
+	app.get('/blog/kindeditor_edit/:username/:day/:title', function(req, res){
+		var currentUser = req.session.user;
+		Post.edit(currentUser.username, req.params.day, req.params.title, function(err, post){
+			if(err){
+				req.flash('error', err);
+				return res.redirect('back');
+			}
+			res.render('blog/kindeditor_edit', {
+				title: '编辑',
+				post: post,
+				user: req.session.user,
+				success: req.flash('success').toString(),
+				error: req.flash('error').toString()
+			});
+		});
+	});
+	app.post('/blog/kindeditor_edit/:username/:day/:title', checkLogin);
+	app.post('/blog/kindeditor_edit/:username/:day/:title', function(req, res){
 		var currentUser = req.session.user;
 		Post.update(currentUser.username, req.params.day, req.params.title, req.body.post, function(err){
 			var url = encodeURI('/blog/u/' + req.params.username + '/' + req.params.day + '/' + req.params.title);
@@ -374,13 +513,39 @@ var blogRouter = function(app){
 		});
 	});
 
-	app.get('/blog/post', function(req, res){
-		res.render('blog/post', {
-			title: '发表',
-			user: req.session.user,
-			success: req.flash('success').toString(),
-			error: req.flash('error').toString()
-		});
+	app.get('/blog/kindeditor', checkLogin);
+	app.get('/blog/kindeditor', function(req, res){
+		var currentUser =req.session.user;
+
+		Uphead.get(currentUser.username, function(err, userhead){
+			if(err){
+				req.flash('error', err);
+				return res.redirect('/blog/');
+			}
+			res.render('blog/kindeditor', {
+				title: '发表',
+				user: currentUser,
+				userhead: userhead,
+				success: req.flash('success').toString(),
+				error: req.flash('error').toString()
+			});
+		})		
+	});
+
+	app.post('/blog/kindeditor', checkLogin);
+	app.post('/blog/kindeditor', function(req, res){
+		var currentUser = req.session.user,
+			tags = [req.body.tag1, req.body.tag2, req.body.tag3],
+			post = new Post(currentUser.username, req.body.title, tags, req.body.post);
+
+		post.save(function(err){
+			if(err){
+				req.flash('error', err);
+				return res.redirect('/blog/');
+			}
+			req.flash('success', '发布成功！');
+			res.redirect('/blog/');
+		})
 	});
 
 	function checkLogin(req, res, next) {
@@ -398,7 +563,6 @@ var blogRouter = function(app){
 		}
 		next();
 	}
-
 }
 
 module.exports = blogRouter;
