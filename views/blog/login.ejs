@@ -73,18 +73,24 @@
 				},
 				success: function(res){
 					load && load.close();
-					console.log(res);
 					if(res.success){
 						location.href = res.url;
+					}else if(res.error){
+						oTools.alertmess(res.msg);
 					}else{
-						console.log(res.error);
+						location.href = '/blog/';
 					}
 				},
 				error: function(){
 					load && load.close();
-
 				}
 			})
+		});
+
+		$(document).on('keydown', function(e){
+			if(e.keyCode == 13){
+				$('#submitBtn').click();
+			};
 		});
 	});
 </script>

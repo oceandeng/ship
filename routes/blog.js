@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2016-01-10 21:11:07
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-28 18:02:56
+* @Last Modified time: 2016-02-16 17:25:14
 */
 
 'use strict';
@@ -46,6 +46,10 @@ var blogRouter = function(app){
 					_.each(posts, function(ele, index, list){
 						_.extend(ele, userhead[index]);
 					});
+
+// prevent memory leaks 回收 arr用户数组
+					arr.length = 0;
+
 					res.render('blog/index', {
 						title: '首页',
 						user: req.session.user,
@@ -59,7 +63,7 @@ var blogRouter = function(app){
 					});
 				});
 			}
-		})
+		});
 	});
 
 	app.get('/blog/reg', function(req, res){
@@ -137,7 +141,7 @@ var blogRouter = function(app){
 					req.flash('error', err);
 					res.json({error: err});
 					return res.redirect('/blog/reg');
-				}
+				};
 
 				req.session.user = user;
 				req.flash('success', '注册成功！');
@@ -145,8 +149,8 @@ var blogRouter = function(app){
 				res.json({success: 1, url: '/blog/'});
 
 				// res.redirect('/blog/');
-			})
-		})
+			});
+		});
 	});
 
 	app.get('/blog/login', checkNotLogin);
@@ -191,16 +195,20 @@ var blogRouter = function(app){
 		User.get(username, function(err, user){
 			if(!user){
 				req.flash('error', '用户名不存在！');
-				return res.redirect('/blog/login');
+				res.json({error: 1, url: '', msg: '用户名不存在！'});
+				return false;
+				// return res.redirect('/blog/login');
 			}
 			if(user.password != password){
 				req.flash('error', '密码错误！');
-				return res.redirect('/blog/login');
+				res.json({error: 1, url: '', msg: '密码错误！'});
+				return false;
+				// return res.redirect('/blog/login');
 			}
 			// 用户名和密码都匹配后，将用户信息存入session
 			req.session.user = user;
 			req.flash('success', '登录成功！');
-			res.json({success:1, url:'/blog/'})
+			res.json({success:1, url:'/blog/'});
 			// res.redirect('/blog/');
 		});
 	});
@@ -340,15 +348,16 @@ var blogRouter = function(app){
 		var user = req.session.user || {username: req.params.username};
 
 		Post.getOne(req.params.username, req.params.day, req.params.title, function(err, post){
+
 			if(err){
-				// req.flash('error', err);
-				// return res.redirect('/blog/');
+				req.flash('error', err);
+				return res.redirect('/blog/');
 			}
 
 			Uphead.get(req.params.username, function(err, userhead){
 				if(err){
-					// req.flash('error', err);
-					// return res.redirect('/blog/');
+					req.flash('error', err);
+					return res.redirect('/blog/');
 				}
 
 				res.render('blog/article', {
@@ -422,8 +431,8 @@ var blogRouter = function(app){
 			}
 			req.flash('success', '修改成功！');
 			res.redirect(url); // 成功！返回文章页
-		})
-	})
+		});
+	});
 
 	app.get('/blog/remove/:username/:day/:title', checkLogin);
 	app.get('/blog/remove/:username/:day/:title', function(req, res){
@@ -435,7 +444,7 @@ var blogRouter = function(app){
 			}
 			req.flash('success', '删除成功！');
 			res.redirect('/blog/');
-		})
+		});
 	});
 
 	app.post('/blog/u/:username/:day/:title', function(req, res){

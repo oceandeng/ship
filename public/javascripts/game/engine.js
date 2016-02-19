@@ -2,17 +2,20 @@
 * @Author: ocean
 * @Date:   2015-08-02 17:27:05
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-10 14:58:53
+* @Last Modified time: 2016-02-02 17:41:57
 */
 
 'use strict';
-	
+
+var sW = document.documentElement.clientWidth,
+	sH = document.documentElement.clientHeight;
+
 var Game = new function(){
 	// Game Initaliztion
 	this.initialize = function(canvasElementId, spriteData, callback){
 
-		var sW = document.documentElement.clientWidth,
-			sH = document.documentElement.clientHeight;
+		sW = document.documentElement.clientWidth;
+		sH = document.documentElement.clientHeight;
 
 		this.canvas = document.getElementById(canvasElementId);
 

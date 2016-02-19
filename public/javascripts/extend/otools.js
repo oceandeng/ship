@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-06-29 10:14:28
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-28 10:26:53
+* @Last Modified time: 2016-02-16 17:35:55
 */
 
 'use strict';
@@ -29,14 +29,13 @@ var oTools = {
         var html = '<div class="mess">' + str + '</div>',
             fullW = $(window).width(),
             fullH = $(window).height(),
-            twidth = fullW < 768 ? parseInt(fullW * 0.8) : 300;
+            twidth = fullW < 768 ? parseInt(fullW * 0.6) : parseInt(fullW * 0.4);
 
         if($('.mess').size() < 1){
             $('body').append(html);
 
             $('.mess').css({
                 'width' : twidth,
-                'max-width': '300px',
                 'min-height': '30px',
                 'line-height' : '30px',
                 'font-size': '16px',

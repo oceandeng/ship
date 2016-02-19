@@ -106,11 +106,15 @@
 				},
 				error: function(){
 					load && load.close();
-
 				}
 			})
-
 		});
+
+		$(document).on('keydown', function(e){
+			if(e.keyCode == 13){
+				$('#submitBtn').click();
+			}
+		})
 	});
 </script>
 
