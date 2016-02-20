@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2016-01-15 10:26:29
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-27 17:23:41
+* @Last Modified time: 2016-02-16 16:06:56
 */
 
 'use strict';
@@ -135,18 +135,18 @@ Post.getTen = function(username, page, callback){
 					time: -1
 				}).toArray(function (err, docs){
 					mongodb.close();
-					if(err){
-						return callback(err);
-					}
+					// if(err){
+					// 	return callback(err);
+					// }
 					// 解析 markdown 为 html
 					// docs.forEach(function (doc, index){
 					// 	doc.post = markdown.toHTML(doc.post);
 					// })
 					callback(null, docs, total);
-				})
-			})
-		})
-	})
+				});
+			});
+		});
+	});
 }
 
 //根据用户名、发表日期及文章名精确获取一篇文章。
@@ -154,6 +154,7 @@ Post.getOne = function(username, day, title, callback){
 	// 打开数据库
 	mongodb.open(function(err, db){
 		if(err){
+			mongodb.close();
 			return callback(err);
 		}
 		// 读取posts集合
@@ -181,21 +182,17 @@ Post.getOne = function(username, day, title, callback){
 						"title": title
 					}, {
 						$inc: {"pv": 1}
-					}, function(err){
-						mongodb.close();
-						if(err){
-							return callback(err);
-						}
-					})
+					});
 					// doc.post = markdown.toHTML(doc.post);
 					// doc.comments.forEach(function(comment){
 					// 	comment.content = markdown.toHTML(comment.content);
 					// });
+					mongodb.close();
+					callback(null, doc);
 				}
-				callback(null, doc);
 			});
 		});
-	})
+	});
 }
 
 // 返回所有标签
@@ -218,7 +215,7 @@ Post.getTags = function(callback){
 					return callback(err);
 				}
 				callback(null, docs);
-			})
+			});
 		});
 	});
 }

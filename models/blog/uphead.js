@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2016-01-22 13:59:30
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-01-27 17:15:49
+* @Last Modified time: 2016-02-16 17:01:20
 */
 
 'use strict';
@@ -96,9 +96,9 @@ UpHead.update = function(username, userhead, callback){
 					return callback(err);
 				}
 				callback(null);
-			})
-		})
-	})
+			});
+		});
+	});
 }
 
 // 首页按文章获取头像
@@ -131,7 +131,7 @@ UpHead.getHead = function(arr, callback){
 				});
 			});
 		});
-	})
+	});
 }
 
 module.exports = UpHead;

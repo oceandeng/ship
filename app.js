@@ -61,7 +61,6 @@ routes(app);
 blogRouter(app);
 uphead(app);
 
-
 app.use(function (req, res) {
   res.render("blog/404");
 });
