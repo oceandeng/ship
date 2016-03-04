@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-12-15 14:37:38
 * @Last Modified by:   ocean
-* @Last Modified time: 2016-02-02 16:38:42
+* @Last Modified time: 2016-02-24 10:49:53
 */
 
 'use strict';
@@ -41,7 +41,7 @@ app.controller('customCtrl', function($scope, $http){
 });
 
 app.controller('eventCtrl', function($scope){
-
+	
 });
 
 app.controller('formCtrl', function($scope){
