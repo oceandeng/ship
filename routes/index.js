@@ -12,6 +12,11 @@ var router = function(app){
 	  res.render('index', { title: '首页' });
 	});
 
+// -- GET game listing
+	app.get('/game', function(req, res, next){
+		res.render('game', {title: '游戏'});
+	});
+
 //-- GET D3 listing
 	app.get('/d3', function(req, res, next){
 		res.render('d3', {title: 'D3DEMO'});

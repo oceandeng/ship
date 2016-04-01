@@ -1,8 +1,8 @@
 /* 
 * @Author: ocean
 * @Date:   2015-09-10 13:48:00
-* @Last Modified by:   ocean
-* @Last Modified time: 2016-01-11 15:28:04
+* @Last Modified by:   ocean_deng
+* @Last Modified time: 2016-03-15 15:44:48
 */
 
 'use strict';
@@ -37,6 +37,10 @@ module.exports = function(grunt){
 			sass: {
 				files: ['<%= config.style %>/sass/{,*/}*.{scss,sass}'],
 				tasks: ['sass:dist']
+			},
+			uglify: {
+				files: ['public/javascripts/{,*/}*.js'],
+				tasks: ['uglify:my_target']
 			}
 		},
 		
@@ -53,6 +57,17 @@ module.exports = function(grunt){
 					src: ['{,*/}*.{scss,sass}'],
 					dest: '<%= config.style %>/stylesheets',
 					ext: '.css'
+				}]
+			}
+		},
+
+		uglify: {
+			my_target: {
+				files: [{
+					expand: true,
+					cwd: 'public/javascripts',
+					src: '**/*.js',
+					dest: 'public/uglify'
 				}]
 			}
 		},
@@ -79,7 +94,7 @@ module.exports = function(grunt){
 		//--- concurrent
 		concurrent:{
 			// miss uglify
-			tasks:['nodemon', 'watch', 'sass:dist'],
+			tasks:['nodemon', 'watch', 'sass:dist', 'uglify'],
 			options:{
 				logConcurrentOutput:true
 			}
@@ -88,5 +103,8 @@ module.exports = function(grunt){
 
 	grunt.registerTask('default', [
 		'concurrent'
+	]);
+	grunt.registerTask('build', [
+		'uglify'
 	]);
 };

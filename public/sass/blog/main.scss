@@ -6,7 +6,8 @@ body {
     padding: 0;
     margin: 0;
 	font: 14px "Microsoft Yahei" "Lucida Grande", Helvetica, Arial, sans-serif;
-    background: url(../../images/b-bg.png) repeat;
+    background: none !important;
+    color: $m-color;
 }
 input, select {
     width: 100%;
@@ -29,7 +30,10 @@ select:-webkit-autofill {
 }
 
 a{
-    color: $m-color;
+    color: $link-color;
+}
+a:hover{
+    color: $f-color;
 }
 
 img{
@@ -57,7 +61,7 @@ body{
 
 .t-username{
     float: left;
-    color: #fff;
+    color: $m-color;
     margin: 0 0 0 20px;
 }
 
@@ -82,12 +86,12 @@ body{
     width: 120px;
     @include line-height(30px);
     border-radius: 20px;
-    border: 1px solid #fff;
+    border: 1px solid $b-color;
     font-size: 14px;
-    color: #fff;
+    color: $m-color;
 }
 .back-bar a:hover{
-    background-color: rgba(60, 125, 230, .7);
+    background-color: $bg-ac-color;
     color: #f9f9f9;
     -webkit-transition: color .2s linear;
 }
@@ -97,7 +101,6 @@ body{
     @include line-height(30px);
     @include clearfix();
     text-align: right;
-    background: rgba(0, 0, 0, .8);
 
     span{
         display: inline-block;
@@ -113,11 +116,11 @@ body{
         text-decoration: none;
         @include line-height(30px);
         font-size: 12px;
-        color: #fff;
+        color: $f-color;
 
         &:hover{
-            background-color: rgba(60, 125, 230, .7);
-            color: #f9f9f9;
+            background-color: $bg-ac-color;
+            color: $f-color;
             -webkit-transition: background-color .2s linear;
         }
     }
@@ -155,8 +158,7 @@ body{
             margin: 30px 0 0 0;
             width: 60%;
             background: url(../../images/search-icon.png) no-repeat 95% center;
-            background-color: #fff;
-            box-shadow: 1px 1px 3px #ccc;
+            box-shadow: 0px 0px 3px $shadow-color;
             text-align: left;
     
             input{
@@ -165,6 +167,9 @@ body{
                 border: none;
                 background: none;
                 text-align: left;
+            }
+            input::-webkit-input-placeholder {
+                color: $b-color !important;
             }
         }
     }
@@ -197,7 +202,7 @@ body{
         padding: 0;
 
         li{
-            border-bottom: 1px solid #fff;
+            border-bottom: 1px solid $b-color;
             padding: 0 5px;
             margin: 0;
 
@@ -205,12 +210,12 @@ body{
                 @include line-height(40px);
                 background: none;
                 border: none;
-                color: #fff;
+                color: $m-color;
                 text-align: left;
             }
 
             input::-webkit-input-placeholder {
-                color: rgba(255, 255, 255, .8) !important;
+                color: $b-color !important;
             }
         }
     }
@@ -218,7 +223,7 @@ body{
     .submit-btn{
         margin: 100px 0 0 0;
         @include line-height(50px);
-        background-color: rgba(60, 125, 230, .7);
+        background-color: $bg-color;
         border-radius: 5px;
         text-align: center;
         cursor: pointer;
@@ -239,7 +244,7 @@ body{
         }
 
         &:hover{
-            background: rgba(60, 125, 230, .9);
+            background: $bg-ac-color;
             transition: background .2s linear;
         }
     }
@@ -262,7 +267,7 @@ body{
 .post-edit{
     margin: 0 0 20px 0;
     padding: 20px;
-    background: #fff;
+    background: rgba(255, 255, 255, .6);
     border-radius: 5px;
 
     h3{
@@ -277,6 +282,7 @@ body{
             @include line-height(20px);
             text-align: left;
             border: none;
+            background: none;
         }
     }
     .post-none{
@@ -299,7 +305,7 @@ body{
 
         input{
             @include line-height();
-            background: $m-color;
+            background: $bg-color;
             color: #fff;
             padding: 0;
             margin: 0;
@@ -321,10 +327,10 @@ body{
 
 .post-box, .post-edit{
     padding: 20px;
-    background: #fff;
+    background: rgba(10, 130, 160, .6);
     border-radius: 5px;
     position: relative;
-    box-shadow: 1px 1px 3px #ccc;
+    box-shadow: 0px 0px 3px $shadow-color;
 
     .post-head{
         width: 70px;
@@ -360,10 +366,10 @@ body{
         width: 20%;
         float: right;
         border-radius: 3px;
-        background-color: #f3f3f3;
-        color: #333;
+        background-color: $bg-color;
+        color: $m-color;
         font-size: 13px;
-        box-shadow: 1px 1px 3px #ccc;
+        box-shadow: 0px 0px 3px $shadow-color;
     }
     .edit:hover{
         text-decoration:none;
@@ -377,7 +383,7 @@ body{
     font-size: 20px;
     padding: 0 0 20px 0;
     margin: 20px 0;
-    color: $g333;
+    color: $m-color;
     border-bottom: 1px solid $b-color;
 }
 .post-post{
@@ -385,10 +391,10 @@ body{
 }
 .comment{
     padding: 20px 0;
-    border-top: 1px solid $b-color;
+    // border-top: 1px solid $b-color;
 
     .comment-list{
-        background: #eee;
+        background: $bg-color;
         border-radius: 5px;
         padding: 15px 0;
 
@@ -403,7 +409,7 @@ body{
 }
 .comment-form{
     padding: 20px;
-    background: #eee;
+    background: $bg-color;
     border-radius: 5px;
     margin: 10px 0 0 0;
 
@@ -418,13 +424,14 @@ body{
         border-radius: 3px;
         padding: 10px;
         border-radius: 5px;
-        background: #fff;
+        background: $bg-color;
         input{
             border: none;
             @include line-height(20px);
             margin: 0;
             padding: 0;
             text-align: left;
+            background: none;
         }
     }
     .c-c{
@@ -432,10 +439,11 @@ body{
         border-radius: 3px;
         padding: 10px;
         border-radius: 5px;
-        background: #fff;
+        background: $bg-color;
         textarea{
             border: none;
             min-height: 100px;
+            background: none;
         }
     }
     textarea{
@@ -446,8 +454,8 @@ body{
 
         input{
             @include line-height();
-            background: $m-color;
-            color: #fff;
+            background: $bg-color;
+            color: $m-color;
             padding: 0;
             margin: 0;
             border: none;
@@ -526,7 +534,7 @@ body{
 .archive, .tag-list, .tag-box{
     margin: 0;
     padding: 20px 20px 50px 20px;
-    background: #fff;
+    background: $bg-color;
     border-radius: 5px;
     list-style:none;
     line-height:30px;
@@ -628,7 +636,7 @@ body{
 .user-head{
     width: 70px;
     position: absolute;
-    box-shadow: 1px 1px 3px #ccc;
+    box-shadow: 0px 0px 3px $shadow-color;
     left: -90px;
     a{
         background: #fff;
@@ -690,7 +698,7 @@ footer{
         li{
             background: #fff;
             border-radius: 5px;
-            box-shadow: 1px 1px 3px #ccc;
+            box-shadow: 0px 0px 3px $shadow-color;
             margin: 0 0 20px 0;
 
             img{

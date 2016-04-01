@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-08-02 17:27:05
 * @Last Modified by:   ocean_deng
-* @Last Modified time: 2016-03-13 20:38:01
+* @Last Modified time: 2016-03-15 23:05:43
 */
 
 'use strict';
@@ -53,6 +53,19 @@ var Game = new function(){
 		SpriteSheet.load(spriteData, callback);
 
 	};
+
+	this.resize = function(spriteData, callback){
+		sW = document.documentElement.clientWidth;
+		sH = document.documentElement.clientHeight;
+
+		this.canvas.width = sW;
+		this.canvas.height = sH;
+
+		this.width = sW;
+		this.height = sH;
+
+		callback && SpriteSheet.load(spriteData, callback);;
+	}
 
 	// Handle Input
 	var KEY_CODES = {37: 'left', 39: 'right', 32: 'fire'};
@@ -162,13 +175,13 @@ var TitleScreen = function TitleScreen(title, subtitle, callback) {
   };
 
   this.draw = function(ctx) {
-    ctx.fillStyle = "#FFFFFF";
+    ctx.fillStyle = "#008daf";
     ctx.textAlign = "center";
 
-    ctx.font = "bold 40px bangers";
+    ctx.font = "30px Microsoft Yahei";
     ctx.fillText(title, Game.width/2, Game.height/2);
 
-    ctx.font = "bold 20px bangers";
+    ctx.font = "20px Microsoft Yahei";
     ctx.fillText(subtitle, Game.width/2, Game.height/2 + 40);
 
   };
@@ -340,22 +353,22 @@ var TouchControls = function(){
 	this.drawSquare = function(ctx, x, y, txt, on){
 		ctx.globalAlpha = on ? 0.9 : 0.6;
 		ctx.fillStyle = "#ccc";
-		ctx.fillRect(x, y, blockWidth, blockWidth);
+		ctx.fillRect(x, y, blockWidth, blockWidth / 3);
 
 		ctx.fillStyle = "#fff";
 		ctx.textAlign = "center";
 		ctx.globalAlpha = 1.0;
-		ctx.font = "bold " + (3*unitWidth/4) + "px arial";
+		ctx.font = "12px arial";
 
-		ctx.fillText(txt, x+blockWidth/2, y+3*blockWidth/4+5);
+		ctx.fillText(txt, x+blockWidth/2, y+3*blockWidth/8-10);
 	};
 
 	this.draw = function(ctx){
 		ctx.save();
-		var yLoc = Game.height - unitWidth;
+		var yLoc = Game.height - unitWidth / 2;
 
-		this.drawSquare(ctx, gutterWidth, yLoc, "\u25C0", Game.keys['left']);
-		this.drawSquare(ctx, 4*unitWidth, yLoc, "\u25B6", Game.keys['right']);
+		this.drawSquare(ctx, gutterWidth, yLoc, "<", Game.keys['left']);
+		this.drawSquare(ctx, 4*unitWidth, yLoc, ">", Game.keys['right']);
 		// this.drawSquare(ctx, 4*unitWidth, yLoc, "A", Game.keys['fire']);
 		ctx.restore();
 	};
@@ -395,7 +408,7 @@ var TouchControls = function(){
 	Game.canvas.addEventListener('touchstart', this.trackTouch, true);
 	Game.canvas.addEventListener('touchmove', this.trackTouch, true);
 	Game.canvas.addEventListener('touchend', this.trackTouch, true);
-	Game.playerOffset = unitWidth + 20;
+	Game.playerOffset = unitWidth - 40;
 }
 
 var GamePoints = function(){
