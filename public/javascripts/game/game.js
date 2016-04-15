@@ -1,8 +1,8 @@
 /* 
 * @Author: ocean
 * @Date:   2015-08-02 16:17:04
-* @Last Modified by:   ocean
-* @Last Modified time: 2016-02-02 17:46:06
+* @Last Modified by:   ocean_deng
+* @Last Modified time: 2016-03-15 22:55:18
 */
 
 'use strict';
@@ -32,24 +32,39 @@ var enemies = {
 	step: {x: 0, y: -50, sprite: 'enemy_circle', health:10, B: 300, C: 1.5, E: 60}
 };
 
-var level1 = [
-	[0, 4000, 500, 'step'],
-	[6000, 13000, 800, 'ltr'],
-	[12000, 16000, 400, 'circle'],
-	[18200, 20000, 500, 'straight', {x: 150}],
-	[18200, 20000, 500, 'straight', {x: 100}],
-	[18400, 20000, 500, 'straight', {x: 200}],
-	[22000, 25000, 400, 'wiggle', {x: 300}],
-	[22000, 25000, 400, 'wiggle', {x: 200}]
-];
+var isMobile = !!('ontouchstart' in window);
+
+if(isMobile){
+	var level1 = [
+		[0, 4000, 500, 'step'],
+		[6000, 13000, 800, 'ltr'],
+		[12000, 16000, 400, 'circle'],
+		[18200, 20000, 500, 'straight', {x: 150}],
+		[18200, 20000, 500, 'straight', {x: 100}],
+		[18400, 20000, 500, 'straight', {x: 200}],
+		[22000, 25000, 400, 'wiggle', {x: 300}],
+		[22000, 25000, 400, 'wiggle', {x: 200}]
+	];
+} else {
+	var level1 = [
+		[0, 4000, 500, 'step', {x: parseInt(sW / 3)}],
+		[6000, 13000, 800, 'ltr', {x: parseInt(sW / 3)}],
+		[12000, 16000, 400, 'circle', {x: parseInt(sW / 2)}],
+		[18200, 20000, 500, 'straight', {x: parseInt(sW * 0.6)}],
+		[18200, 20000, 500, 'straight', {x: parseInt(sW * 0.7)}],
+		[18400, 20000, 500, 'straight', {x: parseInt(sW * 0.8)}],
+		[22000, 25000, 400, 'wiggle', {x: parseInt(sW / 2)}],
+		[22000, 25000, 400, 'wiggle', {x: parseInt(sW / 3)}]
+	];
+}
 
 var startGame = function(){
 	// SpriteSheet.draw(Game.ctx, "ship", 100, 100, 0);
 	Game.setBoard(0, new Starfield(20, 0.4, 100, true));
 	Game.setBoard(1, new Starfield(50, 0.6, 100));
 	Game.setBoard(2, new Starfield(100, 1.0, 50));
-	Game.setBoard(3, new TitleScreen('Alien Invasion',
-									'Press space to start playing',
+	Game.setBoard(3, new TitleScreen('打飞机',
+									'点击空格开始',
 									playGame));
 };
 
@@ -63,15 +78,19 @@ var playGame = function(){
 };
 
 var winGame = function(){
-	Game.setBoard(3, new TitleScreen("You win!", "Press fire to play again", playGame));
+	Game.setBoard(3, new TitleScreen("牛逼!", "再来一发吧~", playGame));
 };
 
 var loseGame = function(){
-	Game.setBoard(3, new TitleScreen("You lose!", "Press fire to play again", playGame));
+	Game.setBoard(3, new TitleScreen("姿势不对吧!", "换个姿势再来一发吧~", playGame));
 };
 
 window.addEventListener('load', function(){
 	Game.initialize('game', sprites, startGame);
+}, false);
+
+window.addEventListener('resize', function(){
+	Game.resize(sprites, startGame);
 }, false);
 
 // Star Field
