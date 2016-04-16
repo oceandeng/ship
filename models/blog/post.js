@@ -1,8 +1,8 @@
 /* 
 * @Author: ocean
 * @Date:   2016-01-15 10:26:29
-* @Last Modified by:   ocean
-* @Last Modified time: 2016-02-16 16:06:56
+* @Last Modified by:   ocean_deng
+* @Last Modified time: 2016-04-12 13:08:19
 */
 
 'use strict';
@@ -31,7 +31,7 @@ Post.prototype.save = function(callback){
 			day: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
 			minute: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
 		};
-	
+
 	var abstract = Tools.delHtmlTag(this.post);
 	abstract = abstract.substring(0, 120);
 
